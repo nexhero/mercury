@@ -1,0 +1,3 @@
+*.~undo-tree~
+/package-lock.json
+/node_modules/

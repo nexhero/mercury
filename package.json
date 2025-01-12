@@ -1,0 +1,53 @@
+{
+  "name": "mercury",
+  "main": "index.html",
+  "pear": {
+    "name": "mercury",
+    "type": "desktop",
+    "gui": {
+      "backgroundColor": "#1F2430",
+      "height": "540",
+      "width": "720"
+    }
+  },
+  "type": "module",
+  "license": "Apache-2.0",
+  "scripts": {
+    "dev": "pear run -d .",
+    "test": "brittle test/*.test.js"
+  },
+  "devDependencies": {
+    "brittle": "^3.0.0",
+    "css-loader": "^7.1.2",
+    "pear-interface": "^1.0.0",
+    "style-loader": "^4.0.0"
+  },
+  "dependencies": {
+    "@mantine/core": "^7.15.2",
+    "@mantine/hooks": "^7.15.2",
+    "@mantine/tiptap": "^7.15.2",
+    "@mui/icons-material": "^6.3.0",
+    "@mui/material": "^6.3.0",
+    "@tabler/icons-react": "^3.26.0",
+    "@tiptap/core": "^2.10.4",
+    "@tiptap/extension-bold": "^2.10.4",
+    "@tiptap/extension-code": "^2.10.4",
+    "@tiptap/extension-highlight": "^2.10.4",
+    "@tiptap/extension-italic": "^2.10.4",
+    "@tiptap/extension-link": "^2.10.4",
+    "@tiptap/extension-strike": "^2.10.4",
+    "@tiptap/extension-subscript": "^2.10.4",
+    "@tiptap/extension-superscript": "^2.10.4",
+    "@tiptap/extension-text-align": "^2.10.4",
+    "@tiptap/extension-text-style": "^2.10.4",
+    "@tiptap/extension-underline": "^2.10.4",
+    "@tiptap/pm": "^2.10.4",
+    "@tiptap/react": "^2.10.4",
+    "@tiptap/starter-kit": "^2.10.4",
+    "htm": "^3.1.1",
+    "hyperbee": "^2.20.7",
+    "jotai": "^2.11.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
