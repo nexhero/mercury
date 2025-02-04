@@ -1,19 +1,26 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-     pear-ctrl[data-platform=darwin] {
-       margin-top: 18px;
-       margin-left: 12px;
-     }
-     #root
-    </style>
-  <script type='module' src='./app.js'></script>
+      <style>
+       pear-ctrl[data-platform=darwin] {
+           margin-top: 18px;
+           margin-left: 12px;
+       }
+       #root
+      </style>
+      <link rel="stylesheet" href="./node_modules/@mantine/core/styles.css">
+      <link rel="stylesheet" href="./node_modules/@mantine/tiptap/styles.css">
+      <link rel="stylesheet" href="./node_modules/@mantine/notifications/styles.css">
+      <link rel="stylesheet" href="./node_modules/mantine-contextmenu/dist/styles.layer.css">
+      <style>
+       @layer mantine, mantine-contextmenu;
+
+      </style>
+      <script type='module' src='./app.js'></script>
 </head>
 <body>
     <pear-ctrl></pear-ctrl>
     <div id="root"/>
   </div>
-
 </body>
 </html>
