@@ -45,7 +45,7 @@ export default function FilesystemTree(){
             key:'duplicate',
             icon: html`<${IconCopy} size=${16} />`,
             title:'Duplicate',
-            onClick:()=>console.log('Duplicate note:'+node.value)
+            onClick:()=>notes.duplicate(node)
           },
           {
             key:'rename',
@@ -60,7 +60,7 @@ export default function FilesystemTree(){
             color: '#ff00ff',
             icon: html`<${IconTrash} size=${16} />`,
             title:'Delete',
-            onClick:()=>console.log('Delete note:'+node.value)
+            onClick:()=>notes.remove(node)
           }
         ])}
           onClick=${()=>notes.openNote(node.value)}>${node.label}</span>

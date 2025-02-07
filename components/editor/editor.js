@@ -18,9 +18,9 @@ import { useState,useEffect } from "react";
 import { listTagAtom, useNote } from "../../lib/core";
 import { useAtomValue,useSetAtom } from 'jotai'
 import {activeNoteAtom} from '../../lib/core'
-import notificationAtom from '../../lib/notification'
+import {useNotificationFn} from '../../lib/notification'
 export default function Editor() {
-  const setNotificationMsg = useSetAtom(notificationAtom)
+  const notiFn = useNotificationFn()
   const activeNote = useAtomValue(activeNoteAtom)
   const listTag = useAtomValue(listTagAtom)
   const [tag,setTag] = useState(activeNote.tag)
@@ -38,14 +38,9 @@ export default function Editor() {
       activeNote.setTag(tag)
       activeNote.setContent(editor.getHTML())
       notesFn.save(activeNote.toJson()).then((msg)=>{
-        setNotificationMsg({
-          title:'Saved',
-          color:'green',
-          message:msg
-        })
-        console.log('message: '+msg)
+        notiFn.createSuccess(msg)
       }).catch((err)=>{
-        console.err('Error: ' + err)
+        notiFn.createError(err)
       })
     }
   };
@@ -101,7 +96,6 @@ export default function Editor() {
          </${RichTextEditor}>
 
       </${Stack}>
-
       <${Group} position="right" mt="md">
         <${Button} onClick=${save} variant="filled" color="cyan">
           Save
