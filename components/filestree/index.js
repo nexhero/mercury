@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import {html} from 'htm/react'
 import {useAtomValue} from 'jotai'
 import { notesAtom, useNote,filetreeAtom } from '../../lib/core'
-import {Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu } from '@mantine/core'
+import {Button,Text,Modal,Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu } from '@mantine/core'
 import { useTree } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+
 import {
   IconChevronDown,
   IconCopy,
@@ -11,21 +13,54 @@ import {
   IconTrash,
 } from '@tabler/icons-react';
 import TreeHeader from './treeActions'
-// import { useQuery } from '@tanstack/react-query'
-// import {useYouse} from '../../lib/youse'
 import { useContextMenu } from 'mantine-contextmenu';
+import {useNotificationFn} from '../../lib/notification'
 
 export default function FilesystemTree(){
   const listNotes = useAtomValue(filetreeAtom)
   const notes = useNote()
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
+  const notiFn = useNotificationFn()
+  const [selectedNote,setSelectedNote] = useState(null) //Helper to store the selected tag or note to execute command from contextual menu
+  const confirmDialog = useDisclosure(false)
+  const [dialogMessage,setDialogMessage] = useState('')
 
+  const confirmDelete = (data)=>{
+    notes.remove(data).then((msg)=>{
+      notiFn.createSuccess(msg)
+    }).catch((err)=>{
+      notiFn.createError(err)
+    }).finally(()=>{
+      confirmDialog[1].close()
+      setSelectedNote(null)
 
+    })
+  }
+  const onDelete = (data)=>{
+    setSelectedNote(data)
+    if (data.type !== 'note') {
+      setDialogMessage(`By removing the "${data.label}" tag, you are also deleting all associated notes.`)
+      confirmDialog[1].open()
+    }else{
+      setDialogMessage(`Delete "${data.label}"?`)
+      confirmDialog[1].open()
+    }
+  }
+  const onDuplicate = (data)=>{
+    notes.duplicate(data)
+  }
   return(
     html`
 
     <${Stack}>
+      <${Modal} opened=${confirmDialog[0]} onClose=${confirmDialog[1].close}>
+        <${Text}>${dialogMessage}<//>
+        <${Group} justify="flex-end">
+          <${Button} onClick=${confirmDialog[1].close}>Cancel<//>
+          <${Button} onClick=${()=>confirmDelete(selectedNote)}>Accept<//>
+        <//>
+      <//>
       <${Flex} gap="sm" justify="flex-end">
         <${TreeHeader}/>
       </${Flex}>
@@ -33,39 +68,31 @@ export default function FilesystemTree(){
         tree=${tree}
         levelOffset=${18}
         renderNode=${({ node, expanded, hasChildren, elementProps }) => html`
-        <${Group} gap=${5} ...${elementProps}>
-          ${hasChildren && html`
+      <${Group} gap=${5} ...${elementProps}>
+      ${hasChildren && html`
             <${IconChevronDown}
               size=${18}
               style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
             />
           `}
-        <${Box} onContextMenu=${showContextMenu([
-          {
-            key:'duplicate',
-            icon: html`<${IconCopy} size=${16} />`,
-            title:'Duplicate',
-            onClick:()=>notes.duplicate(node)
-          },
-          {
-            key:'rename',
-            icon: html`<${IconWriting} size=${16} />`,
-            title:'rename',
-            onClick:()=>console.log('Rename note:'+node.value)
-          },
-          { key: 'divider' },
-
-          {
-            key:'delete',
-            color: '#ff00ff',
-            icon: html`<${IconTrash} size=${16} />`,
-            title:'Delete',
-            onClick:()=>notes.remove(node)
-          }
-        ])}
-          onClick=${()=>notes.openNote(node.value)}>${node.label}</span>
-        <//>
-      `}
+      <${Box} onContextMenu=${showContextMenu([
+        {
+          key:'duplicate',
+          icon: html`<${IconCopy} size=${16} />`,
+          title:'Duplicate',
+          onClick:()=>onDuplicate(node)
+        },
+        {
+          key:'delete',
+          color: '#ff00ff',
+          icon: html`<${IconTrash} size=${16} />`,
+          title:'Delete',
+          onClick:()=>onDelete(node)
+        }
+      ])}
+    onClick=${()=>notes.openNote(node.value)}>${node.label}</span>
+      <//>
+    `}
       />
     </${Stack}>
 

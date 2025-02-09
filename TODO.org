@@ -1,0 +1,69 @@
+* Description
+Mercury is an peer-to-peer (P2P) note-taking application designed for
+seamless data syncing across multiple devices without the reliance on a central
+cloud server.
+** Local Synchronization:
+Sync notes directly between your devices,eliminating the need for
+internet access and reducing dependency on external servers.
+** Cross-Platform Compatibility:
+Access your notes across all supported platforms—iOS, Android,
+and desktops—using a single app instance.
+
+* UI
+** Editor
+*** DONE Save
+*** TODO Improve toolbox
+** NotesTree:
+*** LOOP Display all notes grouped by tag
+Once the program is loaded, first fetch all notes from the hyperbee,
+and store in memory for rapid access
+*** TODO Search.
+Seek notes by their content.
+*** Context Menu
+**** TODO Rename
+**** DONE Duplicate
+**** IDEA Share
+Create
+**** DONE Delete
+
+* Design
+ ┌────────────────────────────────────────────┐
+ │ Mercury                                    │
+ │                                            │
+ │╭─────────╮ ╭─────────────────────────────╮ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ ││         │ │                             │ │
+ │╰─────────╯ ╰─────────────────────────────╯ │
+ │                                            │
+ └────────────────────────────────────────────┘
+
+
+* Core Functions
+** Note
+*** TODO Sync hyperbee
+*** DONE Create
+*** DONE Delete
+*** DONE FetchAll
+*** DONE Edit
+*** DONE Fetch By Id
+*** TODO Search Note
+*** TODO Data encryption
+** Settings
+*** TODO Append external hyperbee key
