@@ -53,11 +53,8 @@ export default function Layout(){
 
             <${AppShell.Main}>
                 <${Notifications}/>
-
                 <${NoteEditor}/>
             </${AppShell.Main}>
-
-
         </${AppShell}>
     `
   )
