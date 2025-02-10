@@ -12,6 +12,8 @@ and desktops—using a single app instance.
 * UI
 ** Editor
 *** DONE Save
+*** TODO Keyboard Shortcuts
+*** HOLD Error Handling
 *** TODO Improve toolbox
 ** NotesTree:
 *** LOOP Display all notes grouped by tag
@@ -23,38 +25,7 @@ Seek notes by their content.
 **** TODO Rename
 **** DONE Duplicate
 **** IDEA Share
-Create
 **** DONE Delete
-
-* Design
- ┌────────────────────────────────────────────┐
- │ Mercury                                    │
- │                                            │
- │╭─────────╮ ╭─────────────────────────────╮ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- ││         │ │                             │ │
- │╰─────────╯ ╰─────────────────────────────╯ │
- │                                            │
- └────────────────────────────────────────────┘
-
-
 * Core Functions
 ** Note
 *** TODO Sync hyperbee
@@ -65,5 +36,7 @@ Create
 *** DONE Fetch By Id
 *** TODO Search Note
 *** TODO Data encryption
+*** TODO Export Backup
+*** TODO Import Backup
 ** Settings
 *** TODO Append external hyperbee key

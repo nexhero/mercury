@@ -44,7 +44,7 @@ export default function Layout(){
             padding="md"
             >
 
-            <${AppShell.Header} mt="30px" >
+            <${AppShell.Header} >
                 <${Header} toggle=${toggle} opened=${opened}/>
             </${AppShell.Header}>
             <${AppShell.Navbar} p="md" mt="30px">

@@ -1,9 +1,18 @@
 import { html } from "htm/react";
-import { useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
 import Underline from "@tiptap/extension-underline";
-import { RichTextEditor } from "@mantine/tiptap";
+import TaskItem from '@tiptap/extension-task-item';
+import TipTapTaskList from '@tiptap/extension-task-list';
+import { IconColorPicker } from '@tabler/icons-react';
+import { Color } from '@tiptap/extension-color';
+import TextStyle from '@tiptap/extension-text-style';
+import Image from '@tiptap/extension-image'
+import { useEditor } from "@tiptap/react";
+import {
+  RichTextEditor,
+  getTaskListExtension
+} from "@mantine/tiptap";
 import {
   IconBold,
   IconItalic,
@@ -11,7 +20,8 @@ import {
   IconHighlight,
   IconStrikethrough,
   IconCode,
-  IconClearFormatting
+  IconClearFormatting,
+  IconListDetails
 } from "@tabler/icons-react";
 import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "@mantine/core";
 import { useState,useEffect } from "react";
@@ -19,6 +29,20 @@ import { listTagAtom, useNote } from "../../lib/core";
 import { useAtomValue,useSetAtom } from 'jotai'
 import {activeNoteAtom} from '../../lib/core'
 import {useNotificationFn} from '../../lib/notification'
+
+const textColor =[
+  '#5d275d',
+  '#b13e53',
+  '#ef7d57',
+  '#ffcd75',
+  '#a7f070',
+  '#38b764',
+  '#41a6f6',
+  '#73eff7',
+  '#94b0c2',
+
+
+]
 export default function Editor() {
   const notiFn = useNotificationFn()
   const activeNote = useAtomValue(activeNoteAtom)
@@ -26,9 +50,29 @@ export default function Editor() {
   const [tag,setTag] = useState(activeNote.tag)
   const [label,setLabel] = useState(activeNote.label)
   const notesFn = useNote()
+  //TODO: Implement Image Uploading
   const editor = useEditor({
-    extensions: [StarterKit, Underline, Highlight],
+    extensions: [
+      StarterKit,
+      Underline,
+      Highlight,
+      TextStyle,
+      Color,
+      getTaskListExtension(TipTapTaskList),
+      TaskItem.configure({
+        nested: true,
+        HTMLAttributes: {
+          class: 'test-item',
+        },
+      }),
+      Image.configure({
+        allowBase64: true,
+      })
+    ],
     content: activeNote.content,
+    onUpdate:({editor})=>{
+      save()
+    }
 
   });
 
@@ -38,7 +82,6 @@ export default function Editor() {
       activeNote.setTag(tag)
       activeNote.setContent(editor.getHTML())
       notesFn.save(activeNote.toJson()).then((msg)=>{
-        notiFn.createSuccess(msg)
       }).catch((err)=>{
         notiFn.createError(err)
       })
@@ -49,6 +92,11 @@ export default function Editor() {
     setLabel(activeNote.label)
     editor.commands.setContent(activeNote.content)
   },[activeNote])
+
+  useEffect(()=>{
+    save()
+  },[tag,label])
+
   return html`
     <${Box} p="md">
       <${Group}>
@@ -64,6 +112,7 @@ export default function Editor() {
           data=${listTag}
           value=${tag}
           onChange=${setTag}
+          size="lg"
           radius="xs"
           placeholder="Tag"
 
@@ -79,8 +128,13 @@ export default function Editor() {
             content: { backgroundColor: "transparent", border: "none" },
           }}
         >
-          <${RichTextEditor.Toolbar} sticky stickyOffset=${60}>
+          <${RichTextEditor.Toolbar} sticky>
             <${RichTextEditor.ControlsGroup}>
+              <${RichTextEditor.TaskList}/>
+              <${RichTextEditor.TaskListLift} />
+              <${RichTextEditor.TaskListSink} />
+              <${RichTextEditor.ColorPicker}
+                colors=${textColor}/>
               <${RichTextEditor.Bold} icon=${IconBold}/>
               <${RichTextEditor.Italic} icon=${IconItalic}/>
               <${RichTextEditor.Underline} icon=${IconUnderline} />
@@ -96,11 +150,6 @@ export default function Editor() {
          </${RichTextEditor}>
 
       </${Stack}>
-      <${Group} position="right" mt="md">
-        <${Button} onClick=${save} variant="filled" color="cyan">
-          Save
-        </${Button}>
-      </${Group}>
     </${Box}>
   `;
 }

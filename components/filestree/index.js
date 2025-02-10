@@ -64,35 +64,37 @@ export default function FilesystemTree(){
       <${Flex} gap="sm" justify="flex-end">
         <${TreeHeader}/>
       </${Flex}>
+
       <${Tree} data=${listNotes}
         tree=${tree}
         levelOffset=${18}
         renderNode=${({ node, expanded, hasChildren, elementProps }) => html`
-      <${Group} gap=${5} ...${elementProps}>
-      ${hasChildren && html`
-            <${IconChevronDown}
-              size=${18}
-              style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-            />
-          `}
-      <${Box} onContextMenu=${showContextMenu([
-        {
-          key:'duplicate',
-          icon: html`<${IconCopy} size=${16} />`,
-          title:'Duplicate',
-          onClick:()=>onDuplicate(node)
-        },
-        {
-          key:'delete',
-          color: '#ff00ff',
-          icon: html`<${IconTrash} size=${16} />`,
-          title:'Delete',
-          onClick:()=>onDelete(node)
-        }
-      ])}
-    onClick=${()=>notes.openNote(node.value)}>${node.label}</span>
-      <//>
-    `}
+          <${Group} gap=${5} ...${elementProps}>
+            ${hasChildren && html`
+              <${IconChevronDown}
+                size=${18}
+                style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              />
+            `}
+            <${Box}
+              onContextMenu=${showContextMenu([
+                  {
+                    key:'duplicate',
+                    icon: html`<${IconCopy} size=${16} />`,
+                    title:'Duplicate',
+                    onClick:()=>onDuplicate(node)
+                  },
+                {
+                  key:'delete',
+                  color: '#ff00ff',
+                  icon: html`<${IconTrash} size=${16} />`,
+                  title:'Delete',
+                  onClick:()=>onDelete(node)
+                }
+              ])}
+            onClick=${()=>notes.openNote(node.value)}>${node.label}</span>
+          <//>
+      `}
       />
     </${Stack}>
 
