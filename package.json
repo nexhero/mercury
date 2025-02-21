@@ -22,6 +22,12 @@
     "pear-interface": "^1.0.0",
     "style-loader": "^4.0.0"
   },
+    "imports": {
+    "events": {
+      "bare": "bare-events",
+      "default": "events"
+    }
+  },
   "dependencies": {
     "@mantine/core": "^7.15.2",
     "@mantine/hooks": "^7.15.2",
@@ -30,8 +36,6 @@
     "@mui/icons-material": "^6.3.0",
     "@mui/material": "^6.3.0",
     "@tabler/icons-react": "^3.26.0",
-    "@tanstack/react-query": "^5.64.2",
-    "@tanstack/react-query-devtools": "^5.64.2",
     "@tiptap/core": "^2.10.4",
     "@tiptap/extension-bold": "^2.10.4",
     "@tiptap/extension-code": "^2.10.4",
@@ -51,7 +55,10 @@
     "@tiptap/pm": "^2.10.4",
     "@tiptap/react": "^2.10.4",
     "@tiptap/starter-kit": "^2.10.4",
+    "autobase": "^6.5.13",
+    "autopass": "^1.0.2",
     "b4a": "^1.6.7",
+    "bare-events": "^2.5.4",
     "bare-fs": "^4.0.1",
     "bare-path": "^3.0.0",
     "bare-process": "^4.0.0",

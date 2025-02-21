@@ -76,12 +76,13 @@ export default function Editor() {
 
   });
 
-  const save = () => {
+  const save = async() => {
     if (editor) {
       activeNote.setLabel(label)
       activeNote.setTag(tag)
       activeNote.setContent(editor.getHTML())
       notesFn.save(activeNote.toJson()).then((msg)=>{
+        console.info('Note saved')
       }).catch((err)=>{
         notiFn.createError(err)
       })
@@ -117,6 +118,7 @@ export default function Editor() {
           placeholder="Tag"
 
         />
+        <${Button} onClick=${save}>Save<//>
       </${Group}>
 
       <${Stack} spacing="md" mt="md">

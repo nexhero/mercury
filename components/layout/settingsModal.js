@@ -1,6 +1,7 @@
 import {html} from 'htm/react';
 import {Modal} from '@mantine/core';
 import { Tabs } from '@mantine/core';
+import {Replicator} from './settings'
 export default function SettingsModal({opened, onClose}){
   return(
     html`
@@ -16,7 +17,7 @@ export default function SettingsModal({opened, onClose}){
                     <${Tabs.Tab} value="security">Security<//>
                     <${Tabs.Tab} value="shortcuts">Shortcuts<//>
                 <//>
-                <${Tabs.Panel} value="replicator">First panel<//>
+                <${Tabs.Panel} value="replicator"><${Replicator}/><//>
 
             <//>
          <//>

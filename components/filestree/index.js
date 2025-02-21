@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {html} from 'htm/react'
 import {useAtomValue} from 'jotai'
 import { notesAtom, useNote,filetreeAtom } from '../../lib/core'
@@ -15,8 +15,10 @@ import {
 import TreeHeader from './treeActions'
 import { useContextMenu } from 'mantine-contextmenu';
 import {useNotificationFn} from '../../lib/notification'
+import { PeerContext } from '../../lib/peer'
 
 export default function FilesystemTree(){
+  const {tableNote} = useContext(PeerContext)
   const listNotes = useAtomValue(filetreeAtom)
   const notes = useNote()
   const tree = useTree()
@@ -26,6 +28,9 @@ export default function FilesystemTree(){
   const confirmDialog = useDisclosure(false)
   const [dialogMessage,setDialogMessage] = useState('')
 
+  ///////////////////////////////////
+  // Functions for contextual menu //
+  ///////////////////////////////////
   const confirmDelete = (data)=>{
     notes.remove(data).then((msg)=>{
       notiFn.createSuccess(msg)
@@ -50,6 +55,17 @@ export default function FilesystemTree(){
   const onDuplicate = (data)=>{
     notes.duplicate(data)
   }
+
+  ////////////////////////////////////////
+  // Setup for auto-update for incoming //
+  // data from others peers             //
+  ////////////////////////////////////////
+  useEffect(()=>{
+    notes.fetchAll()
+    tableNote.on('sync',(peer,data)=>{
+      notes.fetchAll()
+    })
+  },[])
   return(
     html`
 

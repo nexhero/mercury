@@ -6,10 +6,7 @@ import { createTheme, MantineProvider, Container, Notification } from '@mantine/
 // import applyCssFromString from './lib/css'
 // import _style from './lib/style'
 import { PeerProvider} from './lib/peer'
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
+
 import { ContextMenuProvider } from 'mantine-contextmenu';
 
 // applyCssFromString(_style)
@@ -26,14 +23,14 @@ const darkTheme = createTheme({
     mode:'dark'
   }
 })
-const queryClient = new QueryClient()
+
 function App(){
 
   return (
     html`
         <${MantineProvider} defaultColorScheme="dark">
           <${Container} fluid h=${100}>
-            <${QueryClientProvider} client=${queryClient}>
+
             <${PeerProvider}>
               <${MantineProvider} defaultColorScheme="auto">
                   <${ContextMenuProvider}>
@@ -41,7 +38,7 @@ function App(){
                   <//>
               <//>
             </${PeerProvider}>
-            <//>
+
           </${Container}>
         </${MantineProvider}>
 
