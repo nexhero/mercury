@@ -22,7 +22,7 @@ export default function Layout(){
         title:notificationMsg.title,
         color:notificationMsg.color,
         message:notificationMsg.message,
-        autoClose: 5000,
+        autoClose: 10000,
         onClose:()=>setNotificationMsg(null)
 
       })
@@ -40,6 +40,7 @@ export default function Layout(){
     html`
         <${AppShell}
             header=${{ height: 48 }}
+            footer=${{ height: 36}}
             navbar=${{ width: 250, breakpoint: 'sm', collapsed:{mobile:!opened}}}
             padding="md"
             >
@@ -52,8 +53,9 @@ export default function Layout(){
             </${AppShell.Navbar}>
 
             <${AppShell.Main}>
-                <${Notifications}/>
+
                 <${NoteEditor}/>
+
             </${AppShell.Main}>
         </${AppShell}>
     `

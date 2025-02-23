@@ -5,7 +5,6 @@ import { notesAtom, useNote,filetreeAtom } from '../../lib/core'
 import {Button,Text,Modal,Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu } from '@mantine/core'
 import { useTree } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-
 import {
   IconChevronDown,
   IconCopy,
@@ -14,16 +13,16 @@ import {
 } from '@tabler/icons-react';
 import TreeHeader from './treeActions'
 import { useContextMenu } from 'mantine-contextmenu';
-import {useNotificationFn} from '../../lib/notification'
+import { NotificationContext} from '../../lib/notification'
 import { PeerContext } from '../../lib/peer'
-
+import b4a from 'b4a'
 export default function FilesystemTree(){
   const {tableNote} = useContext(PeerContext)
   const listNotes = useAtomValue(filetreeAtom)
   const notes = useNote()
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
-  const notiFn = useNotificationFn()
+  const notiFn = useContext(NotificationContext)
   const [selectedNote,setSelectedNote] = useState(null) //Helper to store the selected tag or note to execute command from contextual menu
   const confirmDialog = useDisclosure(false)
   const [dialogMessage,setDialogMessage] = useState('')
@@ -64,6 +63,9 @@ export default function FilesystemTree(){
     notes.fetchAll()
     tableNote.on('sync',(peer,data)=>{
       notes.fetchAll()
+    })
+    tableNote.on('connection',(peer)=>{
+      notiFn.createInfo(`Peer connected ${b4a.toString(peer.remotePublicKey,'hex')}`)
     })
   },[])
   return(

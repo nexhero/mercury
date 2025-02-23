@@ -1,36 +1,40 @@
-import React, { useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import {html} from 'htm/react';
 import {Container,Center,Stack,Paper, Button, TextInput, Group,Box} from '@mantine/core'
 import { IconCopy, IconCheck, IconWorldMinus } from '@tabler/icons-react';
-import { ActionIcon, CopyButton, Tooltip, Table } from '@mantine/core';
+import { ActionIcon, CopyButton, Tooltip, Table, Badge } from '@mantine/core';
 
 import {useRepository} from '../../../lib/core'
-
-// const replicators = [
-//     {id:'01',name:'android lg',publickey:"0b7e2b9ee1071dafec0137c537d4062d9f61fc465878e136ae0065cfbb77b8d0"},
-//     {id:'02',name:'desktop linux',publickey:"1b7e2b9ee1071dafec0137c537d4062d9f61fc465878e136ae0065cfbb77b8d0"},
-//     {id:'03',name:'server',publickey:"2b7e2b9ee1071dafec0137c537d4062d9f61fc465878e136ae0065cfbb77b8d0"},
-//     {id:'04',name:'desktop arch',publickey:"3b7e2b9ee1071dafec0137c537d4062d9f61fc465878e136ae0065cfbb77b8d0"}
-// ]
+import { NotificationContext } from '../../../lib/notification';
 
 export default function ReplicatorTab(){
+
     const repoFn = useRepository()
+    const notiFn = useContext(NotificationContext)
     const [name,setName] = useState('')
     const [channel,setChannel] = useState('')
     const [replicators,setReplicators] = useState([])
     const addRep = ()=>{
         repoFn.addReplicator(channel,name).then(()=>{
-            repoFn.allChannels().then((result)=>setReplicators(result))
-        })
+            repoFn.allChannels()
+                  .then((result)=>setReplicators(result))
+        }).catch((err)=>notiFn.createError('Unable to add channel'))
     }
     const removeReplicator = (data)=>{
-        console.log('removing:',data)
+
+        repoFn.removeChannel(data.id)
+              .then((msg)=>{
+                  notiFn.createSuccess(msg)
+                  repoFn.allChannels()
+                        .then((result)=>setReplicators(result))
+              }).catch((err)=>notiFn.createError(`${err}`,'Unable to remove channel'))
     }
 
     const rowsReplicator = replicators.map((e)=>html`
             <${Table.Tr} key=${e.id}>
                 <${Table.Td}>${e.name}<//>
-                <${Table.Td}>${e.publickey}<//>
+                <${Table.Td}>${e.peer}<//>
+                <${Table.Td}><${Badge} color=${e.status?"green":"red"}>${e.status?"Online":"Offline"}<//><//>
                 <${Table.Td}>
                     <${ActionIcon} onClick=${()=>removeReplicator(e)} variant="light" color="red" aria-label="Remove">
                         <${IconWorldMinus}/>
@@ -39,8 +43,17 @@ export default function ReplicatorTab(){
             <//>
         `)
     useEffect(()=>{
-        repoFn.allChannels().then((result)=>setReplicators(result))
+        const selfUpdate = setInterval(()=>{
+            repoFn.allChannels()
+              .then((result)=>setReplicators(result))
+              .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
+        },5000)
+        repoFn.allChannels()
+              .then((result)=>setReplicators(result))
+              .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
+        return () => clearInterval(selfUpdate);
     },[])
+
     return(
         html`
         <${Container}pt="12">
@@ -68,7 +81,8 @@ export default function ReplicatorTab(){
                     <${Table.Thead}>
                         <${Table.Tr}>
                             <${Table.Th}>Name<//>
-                            <${Table.Th}>Publickey<//>
+                            <${Table.Th}>Peer<//>
+                            <${Table.Th}>Status<//>
                         <//>
                     <//>
                     <${Table.Tbody}>${rowsReplicator}<//>

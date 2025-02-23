@@ -7,27 +7,41 @@ Sync notes directly between your devices,eliminating the need for
 internet access and reducing dependency on external servers.
 ** Cross-Platform Compatibility:
 Access your notes across all supported platforms—iOS, Android,
-and desktops—using a single app instance.
+and desktops.
 
 * UI
-** Editor
-*** DONE Save
-*** TODO Keyboard Shortcuts
-*** HOLD Error Handling
-*** TODO Improve toolbox
-** NotesTree:
-*** LOOP Display all notes grouped by tag
-Once the program is loaded, first fetch all notes from the hyperbee,
-and store in memory for rapid access
-*** TODO Search.
-Seek notes by their content.
-*** Context Menu
-**** TODO Rename
-**** DONE Duplicate
-**** IDEA Share
-**** DONE Delete
-* Core Functions
-** Note
+** Settings
+*** Replicator
+**** DONE Add Channel
+**** DONE Remove Channel
+**** DONE View Connected Pears
+*** TODO Security
+**** TODO Create Password
+**** TODO Limit Max Connection
+**** TODO Export data
+**** TODO Import data
+**** TODO View All hidden connections
+**** TODO Ban Peer
+*** TODO Theme
+*** TODO Shortcuts
+** Main
+*** Sidebar - Note List
+**** Contextual Menu
+***** TODO Rename
+***** DONE Delete
+***** TODO Move to tag
+***** DONE Duplicate
+***** IDEA Share
+**** TODO Search Notes
+**** TODO Filter Note Button
+**** DONE Create Button
+*** Editor
+**** DONE Save
+**** TODO Keyboard Shortcuts
+**** HOLD Error Handling
+**** TODO Improve toolbox
+* Backend Functions
+** Basic Note
 *** TODO Sync hyperbee
 *** DONE Create
 *** DONE Delete
@@ -38,5 +52,5 @@ Seek notes by their content.
 *** TODO Data encryption
 *** TODO Export Backup
 *** TODO Import Backup
-** Settings
-*** TODO Append external hyperbee key
+** TODO Notification Context
+** HOLD Contextual Menu Context

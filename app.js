@@ -6,7 +6,7 @@ import { createTheme, MantineProvider, Container, Notification } from '@mantine/
 // import applyCssFromString from './lib/css'
 // import _style from './lib/style'
 import { PeerProvider} from './lib/peer'
-
+import { NotificationProvider} from './lib/notification'
 import { ContextMenuProvider } from 'mantine-contextmenu';
 
 // applyCssFromString(_style)
@@ -29,17 +29,15 @@ function App(){
   return (
     html`
         <${MantineProvider} defaultColorScheme="dark">
-          <${Container} fluid h=${100}>
-
             <${PeerProvider}>
               <${MantineProvider} defaultColorScheme="auto">
+                  <${NotificationProvider}>
                   <${ContextMenuProvider}>
                     <${Layout}/>
                   <//>
+                  <//>
               <//>
             </${PeerProvider}>
-
-          </${Container}>
         </${MantineProvider}>
 
     `

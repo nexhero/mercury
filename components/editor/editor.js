@@ -24,11 +24,11 @@ import {
   IconListDetails
 } from "@tabler/icons-react";
 import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "@mantine/core";
-import { useState,useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { listTagAtom, useNote } from "../../lib/core";
 import { useAtomValue,useSetAtom } from 'jotai'
 import {activeNoteAtom} from '../../lib/core'
-import {useNotificationFn} from '../../lib/notification'
+import { NotificationContext } from '../../lib/notification'
 
 const textColor =[
   '#5d275d',
@@ -40,11 +40,9 @@ const textColor =[
   '#41a6f6',
   '#73eff7',
   '#94b0c2',
-
-
 ]
 export default function Editor() {
-  const notiFn = useNotificationFn()
+  const notiFn = useContext(NotificationContext)
   const activeNote = useAtomValue(activeNoteAtom)
   const listTag = useAtomValue(listTagAtom)
   const [tag,setTag] = useState(activeNote.tag)
@@ -73,7 +71,6 @@ export default function Editor() {
     onUpdate:({editor})=>{
       save()
     }
-
   });
 
   const save = async() => {
@@ -81,11 +78,13 @@ export default function Editor() {
       activeNote.setLabel(label)
       activeNote.setTag(tag)
       activeNote.setContent(editor.getHTML())
-      notesFn.save(activeNote.toJson()).then((msg)=>{
-        console.info('Note saved')
-      }).catch((err)=>{
-        notiFn.createError(err)
-      })
+      notesFn.save(activeNote.toJson())
+             .then((msg)=>{
+               console.info('Note saved')
+             })
+             .catch((err)=>{
+               notiFn.createError(err)
+             })
     }
   };
   useEffect(()=>{
