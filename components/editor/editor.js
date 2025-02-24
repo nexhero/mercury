@@ -28,7 +28,7 @@ import { useState, useEffect, useContext } from "react";
 import { listTagAtom, useNote } from "../../lib/core";
 import { useAtomValue,useSetAtom } from 'jotai'
 import {activeNoteAtom} from '../../lib/core'
-import { NotificationContext } from '../../lib/notification'
+import { NotificationContext } from '../../lib/runtime/notification'
 
 const textColor =[
   '#5d275d',

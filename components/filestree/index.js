@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import {html} from 'htm/react'
 import {useAtomValue} from 'jotai'
 import { notesAtom, useNote,filetreeAtom } from '../../lib/core'
-import {Button,Text,Modal,Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu } from '@mantine/core'
+import {Button,Text,Modal,Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu,Title,Divider } from '@mantine/core'
 import { useTree } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {
@@ -13,7 +13,7 @@ import {
 } from '@tabler/icons-react';
 import TreeHeader from './treeActions'
 import { useContextMenu } from 'mantine-contextmenu';
-import { NotificationContext} from '../../lib/notification'
+import { NotificationContext} from '../../lib/runtime/notification'
 import { PeerContext } from '../../lib/peer'
 import b4a from 'b4a'
 export default function FilesystemTree(){
@@ -80,8 +80,12 @@ export default function FilesystemTree(){
         <//>
       <//>
       <${Flex} gap="sm" justify="flex-end">
+
         <${TreeHeader}/>
       </${Flex}>
+
+      <${Title} order=${5}>Notes<//>
+      <${Divider} />
 
       <${Tree} data=${listNotes}
         tree=${tree}

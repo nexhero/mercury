@@ -8,26 +8,13 @@ import FilesystemTree from '../filestree'
 import NoteEditor from '../editor/index'
 import { PeerContext} from '../../lib/peer'
 import { useAtom} from 'jotai'
-import notificationAtom from '../../lib/notification'
 import { Notifications } from "@mantine/notifications";
 import { notifications } from "@mantine/notifications";
 
 export default function Layout(){
-  const [notificationMsg,setNotificationMsg] = useAtom(notificationAtom)
   const [opened, { toggle }] = useDisclosure();
   const {isReady} = useContext(PeerContext) //Wait for the peer initial state
-  useEffect(()=>{
-    if (notificationMsg) {
-      notifications.show({
-        title:notificationMsg.title,
-        color:notificationMsg.color,
-        message:notificationMsg.message,
-        autoClose: 10000,
-        onClose:()=>setNotificationMsg(null)
 
-      })
-    }
-  },[notificationMsg])
   if (!isReady) {
     return(
       html`
@@ -53,9 +40,7 @@ export default function Layout(){
             </${AppShell.Navbar}>
 
             <${AppShell.Main}>
-
                 <${NoteEditor}/>
-
             </${AppShell.Main}>
         </${AppShell}>
     `

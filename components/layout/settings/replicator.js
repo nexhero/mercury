@@ -5,7 +5,7 @@ import { IconCopy, IconCheck, IconWorldMinus } from '@tabler/icons-react';
 import { ActionIcon, CopyButton, Tooltip, Table, Badge } from '@mantine/core';
 
 import {useRepository} from '../../../lib/core'
-import { NotificationContext } from '../../../lib/notification';
+import { NotificationContext } from '../../../lib/runtime/notification';
 
 export default function ReplicatorTab(){
 

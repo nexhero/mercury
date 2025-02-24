@@ -40,6 +40,39 @@ and desktops.
 **** TODO Keyboard Shortcuts
 **** HOLD Error Handling
 **** TODO Improve toolbox
+**** TODO Tabs
+* Runtime
+This are all useContext instances
+** DONE Notification
+UI show messages
+*** DONE Success
+*** DONE Error
+*** DONE Info
+** Storage
+*** Notes
+**** TODO Create
+**** TODO Delete
+**** TODO FetchAll
+**** TODO Edit
+**** TODO Fetch By Id
+**** TODO Search Note
+For this, the notes data most be loaded in a map object
+and use fuzzy for quick search
+**** TODO Data encryption
+**** TODO Export Backup
+**** TODO Import Backup
+** Editor
+*** TODO New File
+*** TODO Open File
+*** TODO Save File
+*** TODO Close File
+*** TODO Closs All Files
+** TODO Network
+*** TODO Add to Channel
+*** TODO Remove Channel
+*** TODO Restart Server
+*** TODO Ban Peer
+*** TODO Firewall settings
 * Backend Functions
 ** Basic Note
 *** TODO Sync hyperbee
@@ -52,5 +85,3 @@ and desktops.
 *** TODO Data encryption
 *** TODO Export Backup
 *** TODO Import Backup
-** TODO Notification Context
-** HOLD Contextual Menu Context
