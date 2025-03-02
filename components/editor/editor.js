@@ -41,9 +41,9 @@ const textColor =[
   '#73eff7',
   '#94b0c2',
 ]
-export default function Editor() {
+export default function Editor({activeNote}) {
   const notiFn = useContext(NotificationContext)
-  const activeNote = useAtomValue(activeNoteAtom)
+
   const listTag = useAtomValue(listTagAtom)
   const [tag,setTag] = useState(activeNote.tag)
   const [label,setLabel] = useState(activeNote.label)

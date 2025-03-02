@@ -5,6 +5,7 @@ import Layout from './components/layout'
 import { createTheme, MantineProvider, Container, Notification } from '@mantine/core';
 import { PeerProvider} from './lib/peer'
 import { NotificationProvider} from './lib/runtime/notification'
+import { NoteProvider} from './lib/runtime/note'
 import { ContextMenuProvider } from 'mantine-contextmenu';
 
 const theme = createTheme({
@@ -28,8 +29,10 @@ function App(){
             <${PeerProvider}>
               <${MantineProvider} defaultColorScheme="auto">
                   <${NotificationProvider}>
+                  <${NoteProvider}>
                   <${ContextMenuProvider}>
                     <${Layout}/>
+                  <//>
                   <//>
                   <//>
               <//>

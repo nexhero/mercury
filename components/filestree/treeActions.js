@@ -1,18 +1,20 @@
-import {useEffect,useState} from 'react'
+import { useContext, useEffect,useState} from 'react'
 import {html} from 'htm/react'
 import {Box, ActionIcon, Modal, Stack, TextInput, ColorPicker,Button } from '@mantine/core'
 import {useDisclosure} from '@mantine/hooks'
 import {IconTag, IconNote} from '@tabler/icons-react'
 import { useNote,  activeNoteAtom } from '../../lib/core'
 import {useAtomValue} from 'jotai'
-
+// *** New imports to manage notes files
+import {NoteContext} from '../../lib/runtime/note'
 
 /////////////////////////////////////////
 // Component display available buttons //
 // in the top of tag/notes tree        //
 /////////////////////////////////////////
 export default function TreeHeader(){
-  const notes = useNote()
+  // const notes = useNote()
+  const notes = useContext(NoteContext)
   const activeNote = useAtomValue(activeNoteAtom)
 
 
@@ -21,7 +23,8 @@ export default function TreeHeader(){
   // TODO: must create the text editor and setup auto-focus //
   ////////////////////////////////////////////////////////////
   const newNoteAction = ()=>{
-    notes.createNote()
+    notes.newNote()
+    // notes.createNote()
   }
 
   return(

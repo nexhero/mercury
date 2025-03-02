@@ -74,12 +74,12 @@ and use fuzzy for quick search
 *** TODO Ban Peer
 *** TODO Firewall settings
 * Backend Functions
-** Basic Note
+** Notebase
+Manage the notes,the server for sharing hyperbee, and conect with other peers
 *** TODO Sync hyperbee
-*** DONE Create
+*** DONE Create / Save
 *** DONE Delete
 *** DONE FetchAll
-*** DONE Edit
 *** DONE Fetch By Id
 *** TODO Search Note
 *** TODO Data encryption

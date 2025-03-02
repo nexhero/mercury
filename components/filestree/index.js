@@ -16,9 +16,11 @@ import { useContextMenu } from 'mantine-contextmenu';
 import { NotificationContext} from '../../lib/runtime/notification'
 import { PeerContext } from '../../lib/peer'
 import b4a from 'b4a'
+import { NoteContext } from '../../lib/runtime/note'
 export default function FilesystemTree(){
   const {tableNote} = useContext(PeerContext)
   const listNotes = useAtomValue(filetreeAtom)
+  const notesCtx = useContext(NoteContext)
   const notes = useNote()
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
@@ -114,7 +116,7 @@ export default function FilesystemTree(){
                   onClick:()=>onDelete(node)
                 }
               ])}
-            onClick=${()=>notes.openNote(node.value)}>${node.label}</span>
+          onClick=${()=>notesCtx.openNote(node.value)}>${node.label}</span>
           <//>
       `}
       />
