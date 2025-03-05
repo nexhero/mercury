@@ -18,7 +18,7 @@ export default function ReplicatorTab(){
         repoFn.addReplicator(channel,name).then(()=>{
             repoFn.allChannels()
                   .then((result)=>setReplicators(result))
-        }).catch((err)=>notiFn.createError('Unable to add channel'))
+        }).catch((err)=>notiFn.createError(`Unable to add channel ${err}`))
     }
     const removeReplicator = (data)=>{
 
