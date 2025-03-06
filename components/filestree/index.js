@@ -16,15 +16,17 @@ import { useContextMenu } from 'mantine-contextmenu';
 import { NotificationContext} from '../../lib/runtime/notification'
 import { PeerContext } from '../../lib/peer'
 import b4a from 'b4a'
-import { NoteContext } from '../../lib/runtime/note'
+import {Mercury} from '../../lib/runtime'
 export default function FilesystemTree(){
   const {tableNote} = useContext(PeerContext)
   const listNotes = useAtomValue(filetreeAtom)
-  const notesCtx = useContext(NoteContext)
+
+  const notesCtx = Mercury.hyper()
   const notes = useNote()
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
-  const notiFn = useContext(NotificationContext)
+
+  const notiFn = Mercury.noti()
   const [selectedNote,setSelectedNote] = useState(null) //Helper to store the selected tag or note to execute command from contextual menu
   const confirmDialog = useDisclosure(false)
   const [dialogMessage,setDialogMessage] = useState('')
