@@ -3,19 +3,17 @@ import {html} from 'htm/react'
 import {Box, ActionIcon, Modal, Stack, TextInput, ColorPicker,Button } from '@mantine/core'
 import {useDisclosure} from '@mantine/hooks'
 import {IconTag, IconNote} from '@tabler/icons-react'
-import { useNote,  activeNoteAtom } from '../../lib/core'
-import {useAtomValue} from 'jotai'
+
 // *** New imports to manage notes files
-import {NoteContext} from '../../lib/runtime/note'
+import {Mercury} from '../../lib/runtime'
 
 /////////////////////////////////////////
 // Component display available buttons //
 // in the top of tag/notes tree        //
 /////////////////////////////////////////
 export default function TreeHeader(){
-  // const notes = useNote()
-  const notes = useContext(NoteContext)
-  const activeNote = useAtomValue(activeNoteAtom)
+
+  const notes = Mercury.hyper()
 
 
   ////////////////////////////////////////////////////////////
@@ -24,7 +22,7 @@ export default function TreeHeader(){
   ////////////////////////////////////////////////////////////
   const newNoteAction = ()=>{
     notes.newNote()
-    // notes.createNote()
+
   }
 
   return(

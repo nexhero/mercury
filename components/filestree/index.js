@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {html} from 'htm/react'
 import {useAtomValue} from 'jotai'
-import { notesAtom, useNote,filetreeAtom } from '../../lib/core'
+import { useNote,filetreeAtom } from '../../lib/core'
 import {Button,Text,Modal,Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu,Title,Divider } from '@mantine/core'
 import { useTree } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
