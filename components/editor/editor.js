@@ -26,9 +26,9 @@ import {
 import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "@mantine/core";
 import { useState, useEffect, useContext } from "react";
 import { listTagAtom, useNote } from "../../lib/core";
-import { useAtomValue,useSetAtom } from 'jotai'
-import {activeNoteAtom} from '../../lib/core'
-import { NotificationContext } from '../../lib/runtime/notification'
+import { useAtomValue } from 'jotai'
+
+import { Mercury } from '../../lib/runtime'
 
 const textColor =[
   '#5d275d',
@@ -42,11 +42,12 @@ const textColor =[
   '#94b0c2',
 ]
 export default function Editor({activeNote}) {
-  const notiFn = useContext(NotificationContext)
+  const notiFn = Mercury.noti()
 
   const listTag = useAtomValue(listTagAtom)
   const [tag,setTag] = useState(activeNote.tag)
   const [label,setLabel] = useState(activeNote.label)
+  // const notesFn = Mercury.hyper()
   const notesFn = useNote()
   //TODO: Implement Image Uploading
   const editor = useEditor({
@@ -83,6 +84,7 @@ export default function Editor({activeNote}) {
                console.info('Note saved')
              })
              .catch((err)=>{
+               console.log(err)
                notiFn.createError(err)
              })
     }
