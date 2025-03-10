@@ -6,6 +6,7 @@ import { createTheme, MantineProvider, Container, Notification } from '@mantine/
 import { PeerProvider} from './lib/peer'
 import { NotificationProvider} from './lib/runtime/notification'
 import { NoteProvider} from './lib/runtime/note'
+import {MercuryProvider } from './lib/runtime'
 import { ContextMenuProvider } from 'mantine-contextmenu';
 
 const theme = createTheme({
@@ -31,7 +32,9 @@ function App(){
                   <${NotificationProvider}>
                   <${NoteProvider}>
                   <${ContextMenuProvider}>
+                  <${MercuryProvider}>
                     <${Layout}/>
+                  <//>
                   <//>
                   <//>
                   <//>
