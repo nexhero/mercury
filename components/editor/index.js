@@ -1,3 +1,4 @@
+
 import { html } from 'htm/react';
 import {TextInput,Box, Stack,Button,Group} from '@mantine/core'
 import EmptyEditor from './empty'
@@ -7,17 +8,23 @@ import {useAtomValue} from 'jotai'
 
 import { Tabs, ActionIcon } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
-import {NoteContext} from '../../lib/runtime/note'
-import { useContext, useEffect } from 'react';
-export default function NoteEditor() {
-  const {openedNotes,closeNote} = useContext(NoteContext)
-  const activeNote = useAtomValue(activeNoteAtom)
+import {DocumentContext} from '../../lib/runtime/note'
 
+import {Mercury} from '../../lib/runtime'
+import { useContext, useEffect, useState } from 'react';
+export default function NoteEditor() {
+  // const {openedNotes,closeNote} = Mercury.documents()
+  const documents = Mercury.documents()
+  const activeNote = useAtomValue(activeNoteAtom)
+  const [tabs,setTabs] = useState([])
+  const [panels,setPanels] = useState([])
   const onCloseTab = (k)=>{
-    closeNote(k)
+    documents.closeNote(k)
   }
 
-  const tabs = Array.from(openedNotes.entries()).map(([key, value]) => (
+  useEffect(()=>{
+    try {
+      setTabs(Array.from(documents.openedDocuments.entries()).map(([key, value]) => (
     html`
         <${Group} key=${key}>
           <${Tabs.Tab} key=${key} value=${key} > ${value.label}<//>
@@ -25,22 +32,32 @@ export default function NoteEditor() {
               <${IconX}/>
             </${ActionIcon}>
         <//> `
-  ))
+  )))
 
-  const panels = Array.from(openedNotes.entries()).map(([key, value]) => (
+      setPanels(Array.from(documents.openedDocuments.entries()).map(([key, value]) => (
     html`
       <${Tabs.Panel} key=${key} value=${key}>
         <${Box}>
           <${Editor} activeNote=${value}/>
         <//>
         <//>`
-  ))
+  )))
+    } catch (err) {
+      console.log('unable to load documents')
+    }
+  },[documents])
 
-  if (openedNotes.size) {
+  console.log('documents',documents)
+  if (!documents) {
+    return (
+      html`<p>Loading notes...</>`
+    )
+  }
+  if (documents.openedDocuments.size) {
     return (
       html`
       <${Box}>
-        <${Tabs} defaultValue=${openedNotes.entries().next().value[0]}>
+        <${Tabs} defaultValue=${documents.openedDocuments.entries().next().value[0]}>
           <${Tabs.List}>
             <${Group} gap="lg">
               ${tabs}

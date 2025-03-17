@@ -13,15 +13,18 @@ import {Mercury} from '../../lib/runtime'
 /////////////////////////////////////////
 export default function TreeHeader(){
 
-  const notes = Mercury.hyper()
+  const documents = Mercury.documents()
 
-
+  useEffect(()=>{
+    console.log('documents in tree-actions',documents)
+},[documents])
   ////////////////////////////////////////////////////////////
   // Create a new note                                      //
   // TODO: must create the text editor and setup auto-focus //
   ////////////////////////////////////////////////////////////
   const newNoteAction = ()=>{
-    notes.newNote()
+    console.log(documents)
+    documents.newDocument()
 
   }
 

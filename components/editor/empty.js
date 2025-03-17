@@ -2,12 +2,12 @@ import {html} from 'htm/react'
 import { Center, Box, Image, Text, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
-import { NoteContext } from '../../lib/runtime/note';
+import { DocumentContext } from '../../lib/runtime/note';
 import SettingsModal from '../layout/settingsModal'
 
 export default function EmptyEditor(){
   const [settingsModal, settingsModalMethod] = useDisclosure(false);
-  const notes = useContext(NoteContext)
+  const notes = useContext(DocumentContext)
   const onSettingsClick = ()=>{
     settingsModalMethod.open()
   }

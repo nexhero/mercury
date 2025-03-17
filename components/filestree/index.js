@@ -21,7 +21,7 @@ export default function FilesystemTree(){
   const {tableNote} = useContext(PeerContext)
   const listNotes = useAtomValue(filetreeAtom)
 
-  const notesCtx = Mercury.hyper()
+  const documents = Mercury.documents()
   const notes = useNote()
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
@@ -118,7 +118,7 @@ export default function FilesystemTree(){
                   onClick:()=>onDelete(node)
                 }
               ])}
-          onClick=${()=>notesCtx.openNote(node.value)}>${node.label}</span>
+          onClick=${()=>documents.openNote(node.value)}>${node.label}</span>
           <//>
       `}
       />
