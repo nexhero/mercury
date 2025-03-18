@@ -15,23 +15,21 @@ export default function TreeHeader(){
 
   const documents = Mercury.documents()
 
-  useEffect(()=>{
-    console.log('documents in tree-actions',documents)
-},[documents])
+//   useEffect(()=>{
+
+// },[documents])
   ////////////////////////////////////////////////////////////
   // Create a new note                                      //
   // TODO: must create the text editor and setup auto-focus //
   ////////////////////////////////////////////////////////////
-  const newNoteAction = ()=>{
-    console.log(documents)
+  const newDocumentAction = ()=>{
     documents.newDocument()
-
   }
 
   return(
     html`
         <${Box}>
-            <${ActionIcon} onClick=${newNoteAction} variant="light" color="gray" aria-label="Note"><${IconNote}/></${ActionIcon}>
+            <${ActionIcon} onClick=${newDocumentAction} variant="light" color="gray" aria-label="Note"><${IconNote}/></${ActionIcon}>
         </${Box}>
     `
   )

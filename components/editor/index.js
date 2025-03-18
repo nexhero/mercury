@@ -47,7 +47,7 @@ export default function NoteEditor() {
     }
   },[documents])
 
-  console.log('documents',documents)
+
   if (!documents) {
     return (
       html`<p>Loading notes...</>`
