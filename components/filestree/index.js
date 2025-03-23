@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import {html} from 'htm/react'
-import {useAtomValue} from 'jotai'
-import { useNote,filetreeAtom } from '../../lib/core'
+import {useAtomValue} from 'jotai'                       //TODO: REmove this
+import { useNote,filetreeAtom } from '../../lib/core' //TODO Remove this
 import {Button,Text,Modal,Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu,Title,Divider } from '@mantine/core'
 import { useTree } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
@@ -22,6 +22,7 @@ export default function FilesystemTree(){
   const listNotes = useAtomValue(filetreeAtom)
 
   const documents = Mercury.documents()
+  const {storage} = Mercury.storage()
   const notes = useNote()
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
@@ -30,6 +31,7 @@ export default function FilesystemTree(){
   const [selectedNote,setSelectedNote] = useState(null) //Helper to store the selected tag or note to execute command from contextual menu
   const confirmDialog = useDisclosure(false)
   const [dialogMessage,setDialogMessage] = useState('')
+
 
   ///////////////////////////////////
   // Functions for contextual menu //
@@ -64,6 +66,8 @@ export default function FilesystemTree(){
   // data from others peers             //
   ////////////////////////////////////////
   useEffect(()=>{
+
+    documents.listAllDocuments()
     notes.fetchAll()
     tableNote.on('sync',(peer,data)=>{
       notes.fetchAll()
@@ -72,6 +76,7 @@ export default function FilesystemTree(){
       notiFn.createInfo(`Peer connected ${b4a.toString(peer.remotePublicKey,'hex')}`)
     })
   },[])
+
   return(
     html`
 
@@ -91,36 +96,36 @@ export default function FilesystemTree(){
       <${Title} order=${5}>Notes<//>
       <${Divider} />
 
-      <${Tree} data=${listNotes}
+      <${Tree} data=${documents.documentList}
         tree=${tree}
         levelOffset=${18}
         renderNode=${({ node, expanded, hasChildren, elementProps }) => html`
-          <${Group} gap=${5} ...${elementProps}>
-            ${hasChildren && html`
+      <${Group} gap=${5} ...${elementProps}>
+      ${hasChildren && html`
               <${IconChevronDown}
                 size=${18}
                 style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
               />
             `}
-            <${Box}
-              onContextMenu=${showContextMenu([
-                  {
-                    key:'duplicate',
-                    icon: html`<${IconCopy} size=${16} />`,
-                    title:'Duplicate',
-                    onClick:()=>onDuplicate(node)
-                  },
-                {
-                  key:'delete',
-                  color: '#ff00ff',
-                  icon: html`<${IconTrash} size=${16} />`,
-                  title:'Delete',
-                  onClick:()=>onDelete(node)
-                }
-              ])}
-          onClick=${()=>documents.openNote(node.value)}>${node.label}</span>
-          <//>
-      `}
+      <${Box}
+    onContextMenu=${showContextMenu([
+      {
+        key:'duplicate',
+        icon: html`<${IconCopy} size=${16} />`,
+        title:'Duplicate',
+        onClick:()=>onDuplicate(node)
+      },
+      {
+        key:'delete',
+        color: '#ff00ff',
+        icon: html`<${IconTrash} size=${16} />`,
+        title:'Delete',
+        onClick:()=>onDelete(node)
+      }
+    ])}
+    onClick=${()=>documents.openNote(node.value)}>${node.label}</span>
+      <//>
+    `}
       />
     </${Stack}>
 

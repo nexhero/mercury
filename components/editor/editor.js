@@ -75,20 +75,12 @@ export default function Editor({activeNote}) {
   });
 
   const save = async() => {
+    console.log(activeNote)
     if (editor) {
-      console.log(activeNote)
       activeNote.setLabel(label)
       activeNote.setTag(tag)
       activeNote.setContent(editor.getHTML())
       activeNote.save()
-      // notesFn.save(activeNote.toJson())
-      //        .then((msg)=>{
-      //          console.info('Note saved')
-      //        })
-      //        .catch((err)=>{
-      //          console.log(err)
-      //          notiFn.createError(err)
-      //        })
     }
   };
   useEffect(()=>{
