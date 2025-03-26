@@ -25,6 +25,7 @@ import {
 } from "@tabler/icons-react";
 import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "@mantine/core";
 import { useState, useEffect, useContext } from "react";
+//FIXME: remove imports from /lib/core
 import { listTagAtom, useNote } from "../../lib/core";
 import { useAtomValue } from 'jotai'
 
@@ -43,8 +44,8 @@ const textColor =[
 ]
 export default function Editor({activeNote}) {
   const notiFn = Mercury.noti()
-
-  const listTag = useAtomValue(listTagAtom)
+  const {tagList} = Mercury.documents()
+  // const tagList = useAtomValue(tagListAtom)
   const [tag,setTag] = useState(activeNote.tag)
   const [label,setLabel] = useState(activeNote.label)
   // const notesFn = Mercury.hyper()
@@ -83,6 +84,7 @@ export default function Editor({activeNote}) {
       activeNote.save()
     }
   };
+
   useEffect(()=>{
     setTag(activeNote.tag)
     setLabel(activeNote.label)
@@ -105,7 +107,7 @@ export default function Editor({activeNote}) {
           placeholder="Title" />
         <//>
         <${Autocomplete}
-          data=${listTag}
+          data=${tagList}
           value=${tag}
           onChange=${setTag}
           size="lg"
@@ -145,7 +147,6 @@ export default function Editor({activeNote}) {
             <${RichTextEditor.Content} />
           </${ScrollArea}>
          </${RichTextEditor}>
-
       </${Stack}>
     </${Box}>
   `;
