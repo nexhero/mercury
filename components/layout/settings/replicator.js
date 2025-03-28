@@ -6,35 +6,42 @@ import { ActionIcon, CopyButton, Tooltip, Table, Badge } from '@mantine/core';
 
 import {useRepository} from '../../../lib/core'
 import { NotificationContext } from '../../../lib/runtime/notification';
-
+import {Mercury} from '../../../lib/runtime'
 export default function ReplicatorTab(){
-
+    const {swarm} = Mercury.swarm()
     const repoFn = useRepository()
     const notiFn = useContext(NotificationContext)
     const [name,setName] = useState('')
     const [channel,setChannel] = useState('')
     const [replicators,setReplicators] = useState([])
+
     const addRep = ()=>{
-        repoFn.addReplicator(channel,name).then(()=>{
-            repoFn.allChannels()
-                  .then((result)=>setReplicators(result))
-        }).catch((err)=>notiFn.createError(`Unable to add channel ${err}`))
+        swarm.addRepository(channel,name)
+             .then((msg)=>{
+                 console.log(msg)
+                 swarm.allRepositories().then((r)=>setReplicators(r))
+             })
+                     .catch((err)=>console.log(err))
+        // repoFn.addReplicator(channel,name).then(()=>{
+        //     repoFn.allChannels()
+        //           .then((result)=>setReplicators(result))
+        // }).catch((err)=>notiFn.createError(`Unable to add channel ${err}`))
     }
     const removeReplicator = (data)=>{
 
-        repoFn.removeChannel(data.id)
-              .then((msg)=>{
-                  notiFn.createSuccess(msg)
-                  repoFn.allChannels()
-                        .then((result)=>setReplicators(result))
-              }).catch((err)=>notiFn.createError(`${err}`,'Unable to remove channel'))
+        // repoFn.removeChannel(data.id)
+        //       .then((msg)=>{
+        //           notiFn.createSuccess(msg)
+        //           repoFn.allChannels()
+        //                 .then((result)=>setReplicators(result))
+        //       }).catch((err)=>notiFn.createError(`${err}`,'Unable to remove channel'))
     }
 
     const rowsReplicator = replicators.map((e)=>html`
             <${Table.Tr} key=${e.id}>
                 <${Table.Td}>${e.name}<//>
                 <${Table.Td}>${e.peer}<//>
-                <${Table.Td}><${Badge} color=${e.status?"green":"red"}>${e.status?"Online":"Offline"}<//><//>
+                <${Table.Td}><${Badge} color=${swarm.network.peers.has(e.peer)?"green":"red"}>${swarm.network.peers.has(e.peer)?"Online":"Offline"}<//><//>
                 <${Table.Td}>
                     <${ActionIcon} onClick=${()=>removeReplicator(e)} variant="light" color="red" aria-label="Remove">
                         <${IconWorldMinus}/>
@@ -42,16 +49,22 @@ export default function ReplicatorTab(){
                 <//>
             <//>
         `)
+
     useEffect(()=>{
-        const selfUpdate = setInterval(()=>{
-            repoFn.allChannels()
-              .then((result)=>setReplicators(result))
-              .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
-        },5000)
-        repoFn.allChannels()
-              .then((result)=>setReplicators(result))
-              .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
-        return () => clearInterval(selfUpdate);
+        // const selfUpdate = setInterval(()=>{
+        //     repoFn.allChannels()
+        //       .then((result)=>setReplicators(result))
+        //       .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
+        // },5000)
+        // repoFn.allChannels()
+        //       .then((result)=>setReplicators(result))
+        //       .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
+        //
+        // return () => clearInterval(selfUpdate);
+        swarm.allRepositories().then((r)=>{
+            console.log(r)
+            setReplicators(r)
+        })
     },[])
 
     return(
@@ -60,8 +73,8 @@ export default function ReplicatorTab(){
         <${Center}>
         <${Stack}>
               <${Group}>
-                <${TextInput} w="40vw" description="Local Repository key" disabled value=${repoFn.publicKey?repoFn.publicKey:''}/>
-                <${CopyButton} value=${repoFn.publicKey}>
+                <${TextInput} w="40vw" description="Local Repository key" disabled value=${swarm.repository?swarm.repository:''}/>
+                <${CopyButton} value=${swarm.repository}>
                     ${({ copied, copy }) => html`
             <${Tooltip} label=${copied ? 'Copied' : 'Copy'} withArrow position="right">
             <${ActionIcon} color=${copied ? 'teal' : 'gray'} variant="subtle" onClick=${copy}>

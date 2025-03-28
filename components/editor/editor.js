@@ -76,7 +76,6 @@ export default function Editor({activeNote}) {
   });
 
   const save = async() => {
-    console.log(activeNote)
     if (editor) {
       activeNote.setLabel(label)
       activeNote.setTag(tag)
