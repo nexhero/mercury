@@ -9,32 +9,33 @@ import { NotificationContext } from '../../../lib/runtime/notification';
 import {Mercury} from '../../../lib/runtime'
 export default function ReplicatorTab(){
     const {swarm} = Mercury.swarm()
+    const noti = Mercury.noti()
     const repoFn = useRepository()
     const notiFn = useContext(NotificationContext)
     const [name,setName] = useState('')
     const [channel,setChannel] = useState('')
     const [replicators,setReplicators] = useState([])
 
+    swarm.on('appended',(peer)=>{
+            fetchRepo()
+        })
+
     const addRep = ()=>{
         swarm.addRepository(channel,name)
              .then((msg)=>{
-                 console.log(msg)
+
+                 noti.createSuccess(msg)
                  swarm.allRepositories().then((r)=>setReplicators(r))
+                 fetchRepo()
              })
-                     .catch((err)=>console.log(err))
-        // repoFn.addReplicator(channel,name).then(()=>{
-        //     repoFn.allChannels()
-        //           .then((result)=>setReplicators(result))
-        // }).catch((err)=>notiFn.createError(`Unable to add channel ${err}`))
+             .catch((err)=>noti.createError(err))
     }
     const removeReplicator = (data)=>{
+        swarm.removeRepository(data.id)
+             .then((msg)=>noti.createSuccess(`Repository ${data.name} has been removed`))
+             .catch((err)=>noti.createError('Repository not found','Unable to remove repository'))
+        fetchRepo()
 
-        // repoFn.removeChannel(data.id)
-        //       .then((msg)=>{
-        //           notiFn.createSuccess(msg)
-        //           repoFn.allChannels()
-        //                 .then((result)=>setReplicators(result))
-        //       }).catch((err)=>notiFn.createError(`${err}`,'Unable to remove channel'))
     }
 
     const rowsReplicator = replicators.map((e)=>html`
@@ -50,24 +51,16 @@ export default function ReplicatorTab(){
             <//>
         `)
 
-    useEffect(()=>{
-        // const selfUpdate = setInterval(()=>{
-        //     repoFn.allChannels()
-        //       .then((result)=>setReplicators(result))
-        //       .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
-        // },5000)
-        // repoFn.allChannels()
-        //       .then((result)=>setReplicators(result))
-        //       .catch((err)=>notiFn.createError('Unable to retrieve channels information'))
-        //
-        // return () => clearInterval(selfUpdate);
+    const fetchRepo = ()=>{
         swarm.allRepositories().then((r)=>{
-            console.log(r)
             setReplicators(r)
         })
+    }
+    useEffect(()=>{
+        fetchRepo()
     },[])
 
-    return(
+     return(
         html`
         <${Container}pt="12">
         <${Center}>
