@@ -4,8 +4,10 @@ import {Container,Center,Stack,Paper, Button, TextInput, Group,Box} from '@manti
 import { IconCopy, IconCheck, IconWorldMinus } from '@tabler/icons-react';
 import { ActionIcon, CopyButton, Tooltip, Table, Badge } from '@mantine/core';
 
+//TODO: Remove those imports
 import {useRepository} from '../../../lib/core'
 import { NotificationContext } from '../../../lib/runtime/notification';
+
 import {Mercury} from '../../../lib/runtime'
 export default function ReplicatorTab(){
     const {swarm} = Mercury.swarm()
@@ -23,10 +25,8 @@ export default function ReplicatorTab(){
     const addRep = ()=>{
         swarm.addRepository(channel,name)
              .then((msg)=>{
-
                  noti.createSuccess(msg)
                  swarm.allRepositories().then((r)=>setReplicators(r))
-                 fetchRepo()
              })
              .catch((err)=>noti.createError(err))
     }
@@ -35,7 +35,6 @@ export default function ReplicatorTab(){
              .then((msg)=>noti.createSuccess(`Repository ${data.name} has been removed`))
              .catch((err)=>noti.createError('Repository not found','Unable to remove repository'))
         fetchRepo()
-
     }
 
     const rowsReplicator = replicators.map((e)=>html`

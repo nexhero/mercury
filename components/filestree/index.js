@@ -27,7 +27,7 @@ export default function FilesystemTree(){
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
 
-  const notiFn = Mercury.noti()
+  const noti = Mercury.noti()
   const [selectedNote,setSelectedNote] = useState(null) //Helper to store the selected tag or note to execute command from contextual menu
   const confirmDialog = useDisclosure(false)
   const [dialogMessage,setDialogMessage] = useState('')
@@ -37,15 +37,10 @@ export default function FilesystemTree(){
   // Functions for contextual menu //
   ///////////////////////////////////
   const confirmDelete = (data)=>{
-    notes.remove(data).then((msg)=>{
-      notiFn.createSuccess(msg)
-    }).catch((err)=>{
-      notiFn.createError(err)
-    }).finally(()=>{
-      confirmDialog[1].close()
-      setSelectedNote(null)
-
-    })
+    documents.deleteDocument(data.value)
+             .then((msg)=>noti.createInfo(msg))
+             .catch((err)=>noti.createError(toString(err),'Unable to delete document'))
+             .finally(()=>confirmDialog[1].close())
   }
   const onDelete = (data)=>{
     setSelectedNote(data)
@@ -73,7 +68,7 @@ export default function FilesystemTree(){
       notes.fetchAll()
     })
     tableNote.on('connection',(peer)=>{
-      notiFn.createInfo(`Peer connected ${b4a.toString(peer.remotePublicKey,'hex')}`)
+      noti.createInfo(`Peer connected ${b4a.toString(peer.remotePublicKey,'hex')}`)
     })
   },[])
 
@@ -123,7 +118,7 @@ export default function FilesystemTree(){
         onClick:()=>onDelete(node)
       }
     ])}
-    onClick=${()=>documents.openNote(node.value)}>${node.label}</span>
+    onClick=${()=>documents.openDocument(node.value)}>${node.label}</span>
       <//>
     `}
       />
