@@ -3,19 +3,15 @@ import { html } from 'htm/react';
 import {TextInput,Box, Stack,Button,Group} from '@mantine/core'
 import EmptyEditor from './empty'
 import Editor from './editor'
-import {activeNoteAtom} from '../../lib/core'
-import {useAtomValue} from 'jotai'
 
 import { Tabs, ActionIcon } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
-import {DocumentContext} from '../../lib/runtime/document'
+
 
 import {Mercury} from '../../lib/runtime'
 import { useContext, useEffect, useState } from 'react';
 export default function NoteEditor() {
-  // const {openedNotes,closeNote} = Mercury.documents()
   const documents = Mercury.documents()
-  const activeNote = useAtomValue(activeNoteAtom)
   const [tabs,setTabs] = useState([])
   const [panels,setPanels] = useState([])
   const onCloseTab = (k)=>{

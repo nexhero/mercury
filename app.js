@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { html } from 'htm/react';
 import Layout from './components/layout'
 import { createTheme, MantineProvider, Container, Notification } from '@mantine/core';
-import { PeerProvider} from './lib/peer'
+
 import { NotificationProvider} from './lib/runtime/notification'
 
 import {MercuryProvider } from './lib/runtime'
@@ -27,7 +27,7 @@ function App(){
   return (
     html`
         <${MantineProvider} defaultColorScheme="dark">
-            <${PeerProvider}>
+
               <${MantineProvider} defaultColorScheme="auto">
                   <${NotificationProvider}>
                   <${ContextMenuProvider}>
@@ -37,7 +37,7 @@ function App(){
                   <//>
                   <//>
               <//>
-            </${PeerProvider}>
+
         </${MantineProvider}>
 
     `

@@ -4,10 +4,6 @@ import {Container,Center,Stack,Paper, Button, TextInput, Group,Box} from '@manti
 import { IconCopy, IconCheck, IconWorldMinus } from '@tabler/icons-react';
 import { ActionIcon, CopyButton, Tooltip, Table, Badge } from '@mantine/core';
 
-//TODO: Remove those imports
-import {useRepository} from '../../../lib/core'
-import { NotificationContext } from '../../../lib/runtime/notification';
-
 import {Mercury} from '../../../lib/runtime'
 export default function ReplicatorTab(){
     const {swarm} = Mercury.swarm()

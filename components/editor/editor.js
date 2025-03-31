@@ -25,9 +25,6 @@ import {
 } from "@tabler/icons-react";
 import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "@mantine/core";
 import { useState, useEffect, useContext } from "react";
-//FIXME: remove imports from /lib/core
-import { listTagAtom, useNote } from "../../lib/core";
-import { useAtomValue } from 'jotai'
 
 import { Mercury } from '../../lib/runtime'
 
@@ -45,11 +42,9 @@ const textColor =[
 export default function Editor({activeNote}) {
   const notiFn = Mercury.noti()
   const {tagList} = Mercury.documents()
-  // const tagList = useAtomValue(tagListAtom)
   const [tag,setTag] = useState(activeNote.tag)
   const [label,setLabel] = useState(activeNote.label)
-  // const notesFn = Mercury.hyper()
-  const notesFn = useNote()
+
   //TODO: Implement Image Uploading
   const editor = useEditor({
     extensions: [

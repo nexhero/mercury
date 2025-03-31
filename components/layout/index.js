@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import {html} from 'htm/react'
 import {Group,Grid,AppShell,Burger, Title, ActionIcon} from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks';
@@ -6,14 +6,16 @@ import {IconSettings} from '@tabler/icons-react'
 import Header from './header'
 import FilesystemTree from '../filestree'
 import NoteEditor from '../editor/index'
-import { PeerContext} from '../../lib/peer'
-import { useAtom} from 'jotai'
+
 import { Notifications } from "@mantine/notifications";
 import { notifications } from "@mantine/notifications";
+import { Mercury } from '../../lib/runtime';
 
 export default function Layout(){
   const [opened, { toggle }] = useDisclosure();
-  const {isReady} = useContext(PeerContext) //Wait for the peer initial state
+  const {storageReady} = Mercury.storage()
+  const isReady = storageReady
+
 
   if (!isReady) {
     return(
