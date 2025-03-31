@@ -42,13 +42,16 @@ export default function FilesystemTree(){
              .catch((err)=>noti.createError(toString(err),'Unable to delete document'))
              .finally(()=>confirmDialog[1].close())
   }
+
   const onDelete = (data)=>{
     setSelectedNote(data)
-    if (data.type !== 'note') {
-      setDialogMessage(`By removing the "${data.label}" tag, you are also deleting all associated notes.`)
+    if (data.type !== 'tag') {
+      setDialogMessage(`Delete "${data.label}"?`)
       confirmDialog[1].open()
     }else{
-      setDialogMessage(`Delete "${data.label}"?`)
+      // TODO: Remove documents recursive tags
+      documents.deleteTag(data)
+      setDialogMessage(`By removing the "${data.label}" tag, you are also deleting all associated notes.`)
       confirmDialog[1].open()
     }
   }

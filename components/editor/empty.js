@@ -2,7 +2,7 @@ import {html} from 'htm/react'
 import { Center, Box, Image, Text, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
-import { DocumentContext } from '../../lib/runtime/note';
+import { DocumentContext } from '../../lib/runtime/document';
 import SettingsModal from '../layout/settingsModal'
 
 export default function EmptyEditor(){

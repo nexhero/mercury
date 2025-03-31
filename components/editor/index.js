@@ -8,7 +8,7 @@ import {useAtomValue} from 'jotai'
 
 import { Tabs, ActionIcon } from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
-import {DocumentContext} from '../../lib/runtime/note'
+import {DocumentContext} from '../../lib/runtime/document'
 
 import {Mercury} from '../../lib/runtime'
 import { useContext, useEffect, useState } from 'react';
