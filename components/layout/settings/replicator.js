@@ -3,13 +3,12 @@ import {html} from 'htm/react';
 import {Container,Center,Stack,Paper, Button, TextInput, Group,Box} from '@mantine/core'
 import { IconCopy, IconCheck, IconWorldMinus } from '@tabler/icons-react';
 import { ActionIcon, CopyButton, Tooltip, Table, Badge } from '@mantine/core';
-
 import {Mercury} from '../../../lib/runtime'
+//BUG: Validate key, otherwise app crash
 export default function ReplicatorTab(){
     const {swarm} = Mercury.swarm()
     const noti = Mercury.noti()
-    const repoFn = useRepository()
-    const notiFn = useContext(NotificationContext)
+
     const [name,setName] = useState('')
     const [channel,setChannel] = useState('')
     const [replicators,setReplicators] = useState([])
@@ -24,12 +23,13 @@ export default function ReplicatorTab(){
                  noti.createSuccess(msg)
                  swarm.allRepositories().then((r)=>setReplicators(r))
              })
-             .catch((err)=>noti.createError(err))
+             .catch((err)=>noti.createError(String(err)))
     }
     const removeReplicator = (data)=>{
+        console.log('Remove replicator',data)
         swarm.removeRepository(data.id)
              .then((msg)=>noti.createSuccess(`Repository ${data.name} has been removed`))
-             .catch((err)=>noti.createError('Repository not found','Unable to remove repository'))
+             .catch((err)=>noti.createError(String(err),'Unable to remove repository'))
         fetchRepo()
     }
 

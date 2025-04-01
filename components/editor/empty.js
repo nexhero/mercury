@@ -1,13 +1,14 @@
 import {html} from 'htm/react'
 import { Center, Box, Image, Text, Button } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useContext } from 'react';
-import { DocumentContext } from '../../lib/runtime/document';
+
 import SettingsModal from '../layout/settingsModal'
+import { Mercury } from '../../lib/runtime';
 
 export default function EmptyEditor(){
   const [settingsModal, settingsModalMethod] = useDisclosure(false);
-  const notes = useContext(DocumentContext)
+  const document = Mercury.documents()
+
   const onSettingsClick = ()=>{
     settingsModalMethod.open()
   }
@@ -30,7 +31,7 @@ export default function EmptyEditor(){
           </${Text}>
 
           <${Text}>
-          Create a new file to start fresh with secure, private notes. <${Button} variant="subtle" onClick=${notes.newNote}> Click here</${Button}>
+          Create a new file to start fresh with secure, private notes. <${Button} variant="subtle" onClick=${document.newDocument}> Click here</${Button}>
           </${Text}>
 
         <${Text}>

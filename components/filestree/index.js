@@ -1,3 +1,4 @@
+// TODO: Update list when new data coming from peers
 import React, { useContext, useEffect, useState } from 'react'
 import {html} from 'htm/react'
 import {Button,Text,Modal,Container,Group,Box, Flex, Tree, ColorSwatch,Stack,rem,Menu,Title,Divider } from '@mantine/core'
