@@ -17,7 +17,6 @@ import {Mercury} from '../../lib/runtime'
 export default function FilesystemTree(){
 
   const documents = Mercury.documents()
-  const {storage} = Mercury.storage()
   const tree = useTree()
   const { showContextMenu } = useContextMenu();
 
@@ -58,6 +57,7 @@ export default function FilesystemTree(){
   // data from others peers             //
   ////////////////////////////////////////
   useEffect(()=>{
+    console.log('Loaded...')
     documents.listAllDocuments()
   },[])
 
