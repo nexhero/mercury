@@ -9,11 +9,27 @@ import {
   IconCopy,
   IconWriting,
   IconTrash,
+  IconFileFilled
+  
 } from '@tabler/icons-react';
 import TreeHeader from './treeActions'
 import { useContextMenu } from 'mantine-contextmenu';
 import b4a from 'b4a'
 import {Mercury} from '../../lib/runtime'
+
+function DocumentIcon({node,expanded}){
+
+  if (node.type ==='tag') {
+    return  html `<${IconChevronDown}
+                size=${24}
+                style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+              />`
+  }else{
+    return html `<${IconFileFilled} size=${24}/>`
+  }
+
+}
+
 export default function FilesystemTree(){
 
   const documents = Mercury.documents()
@@ -25,7 +41,37 @@ export default function FilesystemTree(){
   const confirmDialog = useDisclosure(false)
   const [dialogMessage,setDialogMessage] = useState('')
 
+const Leaf=({ node, expanded, hasChildren, elementProps })=>{
 
+  return html`
+    <${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
+      <${Box}
+       onContextMenu=${showContextMenu([
+        {
+          key:'duplicate',
+          icon: html`<${IconCopy} size=${16} />`,
+          title:'Duplicate',
+          onClick:()=>onDuplicate(node)
+        },
+        {
+          key:'delete',
+          color: '#ff00ff',
+          icon: html`<${IconTrash} size=${16} />`,
+          title:'Delete',
+          onClick:()=>onDelete(node)
+        }
+        ])}
+         onClick=${()=>documents.openDocument(node.value)}
+
+      >
+        <span>
+          <${DocumentIcon} node=${node} expanded=${expanded}/>
+          ${node.label}
+        </span>
+      </${Box}>
+    <//>
+  `
+}
   ///////////////////////////////////
   // Functions for contextual menu //
   ///////////////////////////////////
@@ -82,34 +128,10 @@ export default function FilesystemTree(){
       <${Tree} data=${documents.documentList}
         tree=${tree}
         levelOffset=${18}
-        renderNode=${({ node, expanded, hasChildren, elementProps }) => html`
-      <${Group} gap=${5} ...${elementProps}>
-      ${hasChildren && html`
-              <${IconChevronDown}
-                size=${18}
-                style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-              />
-            `}
-      <${Box}
-    onContextMenu=${showContextMenu([
-      {
-        key:'duplicate',
-        icon: html`<${IconCopy} size=${16} />`,
-        title:'Duplicate',
-        onClick:()=>onDuplicate(node)
-      },
-      {
-        key:'delete',
-        color: '#ff00ff',
-        icon: html`<${IconTrash} size=${16} />`,
-        title:'Delete',
-        onClick:()=>onDelete(node)
-      }
-    ])}
-    onClick=${()=>documents.openDocument(node.value)}>${node.label}</span>
-      <//>
-    `}
+        renderNode=${(payload) => html`<${Leaf} ...${payload} />`}
       />
+
+
     </${Stack}>
 
     `
