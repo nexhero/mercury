@@ -8,80 +8,14 @@ internet access and reducing dependency on external servers.
 ** Cross-Platform Compatibility:
 Access your notes across all supported platforms—iOS, Android,
 and desktops.
-
-* UI
-** Settings
-*** Replicator
-**** DONE Add Channel
-**** DONE Remove Channel
-**** DONE View Connected Pears
-*** TODO Security
-**** TODO Create Password
-**** TODO Limit Max Connection
-**** TODO Export data
-**** TODO Import data
-**** TODO View All hidden connections
-**** TODO Ban Peer
-*** TODO Theme
-*** TODO Shortcuts
-** Main
-*** Sidebar - Note List
-**** Contextual Menu
-***** TODO Rename
-***** DONE Delete
-***** TODO Move to tag
-***** DONE Duplicate
-***** IDEA Share
-**** TODO Search Notes
-**** TODO Filter Note Button
-**** DONE Create Button
-*** Editor
-**** DONE Save
-**** TODO Keyboard Shortcuts
-**** HOLD Error Handling
-**** TODO Improve toolbox
-**** TODO Tabs
-* Runtime
-This are all useContext instances
-** DONE Notification
-UI show messages
-*** DONE Success
-*** DONE Error
-*** DONE Info
-** Storage
-*** Notes
-**** TODO Create
-**** TODO Delete
-**** TODO FetchAll
-**** TODO Edit
-**** TODO Fetch By Id
-**** TODO Search Note
-For this, the notes data most be loaded in a map object
-and use fuzzy for quick search
-**** TODO Data encryption
-**** TODO Export Backup
-**** TODO Import Backup
-** Editor
-*** TODO New File
-*** TODO Open File
-*** TODO Save File
-*** TODO Close File
-*** TODO Closs All Files
-** TODO Network
-*** TODO Add to Channel
-*** TODO Remove Channel
-*** TODO Restart Server
-*** TODO Ban Peer
-*** TODO Firewall settings
-* Backend Functions
-** Notebase
-Manage the notes,the server for sharing hyperbee, and conect with other peers
-*** TODO Sync hyperbee
-*** DONE Create / Save
-*** DONE Delete
-*** DONE FetchAll
-*** DONE Fetch By Id
-*** TODO Search Note
-*** TODO Data encryption
-*** TODO Export Backup
-*** TODO Import Backup
+* Requirements
+Mercury run over [[https://pears.com/][Pear]], to install run the next script
+#+begin_src
+npm i -g pear
+#+end_src
+* Install
+#+begin_src
+git clone https://github.com/nexhero/mercury.git
+cd mercury
+pear run --dev .
+#+end_src
