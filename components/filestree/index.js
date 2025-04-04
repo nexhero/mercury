@@ -57,7 +57,6 @@ export default function FilesystemTree(){
   // data from others peers             //
   ////////////////////////////////////////
   useEffect(()=>{
-    console.log('Loaded...')
     documents.listAllDocuments()
   },[])
 

@@ -109,7 +109,6 @@ export default function Editor({activeNote}) {
           placeholder="Tag"
 
         />
-        <${Button} onClick=${save}>Save<//>
       </${Group}>
 
       <${Stack} spacing="md" mt="md">
