@@ -47,14 +47,15 @@ export default function NoteEditor() {
 
   if (!documents) {
     return (
-      html`<p>Loading notes...</>`
+      html`<p>Loading Documents</>`
     )
   }
+
   if (documents.openedDocuments.size) {
     return (
       html`
       <${Box}>
-        <${Tabs} defaultValue=${documents.openedDocuments.entries().next().value[0]}>
+        <${Tabs} value=${documents.activeDoc} onChange=${documents.setActiveDoc} >
           <${Tabs.List}>
             <${Group} gap="lg">
               ${tabs}
