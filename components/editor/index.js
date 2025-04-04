@@ -14,8 +14,9 @@ export default function NoteEditor() {
   const documents = Mercury.documents()
   const [tabs,setTabs] = useState([])
   const [panels,setPanels] = useState([])
+
   const onCloseTab = (k)=>{
-    documents.closeNote(k)
+    documents.closeDocument(k)
   }
 
   useEffect(()=>{
