@@ -1,36 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { html } from 'htm/react';
-import Layout from './components/layout'
 import { MantineProvider, Container, Notification } from '@mantine/core';
-
-import { NotificationProvider} from './lib/runtime/notification'
-
-import {MercuryProvider } from './lib/runtime'
+import {MercuryProvider} from './lib/runtime';
 import { ContextMenuProvider } from 'mantine-contextmenu';
+import Shell from './pages/shell.js';
 
-const root = createRoot(document.querySelector('#root'))
+const root = createRoot(document.querySelector('#root'));
 
 function App(){
 
-  return (
-    html`
-        <${MantineProvider} defaultColorScheme="dark">
-          <${NotificationProvider}>
-            <${ContextMenuProvider}>
-              <${MercuryProvider}>
-                <${Layout}/>
-              <//>
-             <//>
-          <//>
-        </${MantineProvider}>
-
-    `
-  )
+  return html`
+<${MantineProvider} defaultColorScheme="dark" style=${{backgroundColor:'white'}}>
+  <${MercuryProvider}>
+    <${Shell}/>
+  </${MercuryProvider}>
+</${MantineProvider}>
+  `;
 }
-
 root.render(
   html`
-    <${App}/>
+<${App}/>
 `
-)
+);
