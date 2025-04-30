@@ -2,6 +2,7 @@ import React, {useEffect,useContext,useState} from 'react';
 import { html } from 'htm/react';
 import {TextInput,Box, Stack,Button,Group,Tabs, ActionIcon} from '@mantine/core';
 import { IconX } from '@tabler/icons-react';
+import RichEditor from './richEditor';
 import {MercuryContext} from '../../lib/runtime';
 export default function Editor(){
     const {openedDocs,closeOneOpen,activeDoc,setActiveDoc} = useContext(MercuryContext);
@@ -11,11 +12,10 @@ export default function Editor(){
      * Close on tab by document id
      * @param {String} t - Document ID
      */
-    const onCloseTab = (t)=>{
+    const handleCloseTab = (t)=>{
         closeOneOpen(t);
     };
     useEffect(()=>{
-        console.log(openedDocs);
         // Create tabs based on the opened documents
         setTabs(Array.from(openedDocs.entries()).map(([key, value]) => (
             html`
@@ -24,7 +24,7 @@ export default function Editor(){
   <${Tabs.Tab} key=${key} value=${key}>
     ${value.label}
   </${Tabs.Tab}>
-  <${ActionIcon} size="sm"  onClick=${() => {onCloseTab(key);}}>
+  <${ActionIcon} size="sm"  onClick=${() => {handleCloseTab(key);}}>
     <${IconX}/>
 </${ActionIcon}>
 </${Group}>
@@ -35,7 +35,7 @@ export default function Editor(){
             html`
 <${Tabs.Panel} key=${key} value=${key}>
   <${Box}>
-    <p>Editor goes here</p>
+    <${RichEditor} document=${value}/>
   </${Box}>
 </${Tabs.Panel}>`
         )));
