@@ -1,10 +1,10 @@
-import React from 'react'
-import {html} from 'htm/react'
-import {Group,Grid,AppShell,Burger, Title, ActionIcon} from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
-import {Header,Navbar} from '../components/'
+import React from 'react';
+import {html} from 'htm/react';
+import {Group,Grid,AppShell,Burger, Title, ActionIcon} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import {Header,Navbar, Editor} from '../components/';
 export default function Shell(){
-  const [opened,{toggle}] = useDisclosure()
+  const [opened,{toggle}] = useDisclosure();
   return html`
 
 <${AppShell}
@@ -21,9 +21,9 @@ export default function Shell(){
   </${AppShell.Navbar}>
 
   <${AppShell.Main}>
-    <p>This is main</p>
+    <${Editor}/>
   </${AppShell.Main}>
 </${AppShell}>
 
-`
+`;
 }

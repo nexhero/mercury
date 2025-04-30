@@ -1,6 +1,7 @@
 import React,{useContext,useEffect} from 'react';
 import {html} from 'htm/react';
-import {Stack, Flex, Title, Divider,Tree,useTree, Group,Box} from '@mantine/core';
+import {Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
+import {IconTag, IconNote} from '@tabler/icons-react';
 import {
   IconChevronDown,
   IconCopy,
@@ -27,7 +28,7 @@ export function DocumentIcon({node,expanded}){
 
 
 export default function Navbar(){
-  const {documents} = useContext(MercuryContext);
+  const {documents, createDocument} = useContext(MercuryContext);
   const tree = useTree();
   const Leaf = ({node, expanded, hasChildren, elementProps})=>{
     return html`
@@ -45,8 +46,12 @@ export default function Navbar(){
   return html`
 <${Stack}>
   <${Flex} gap="sm" justify="flex-end">
-    <${Title} order=${5}>Documents</${Title}>
+    <${Box}>
+      <${ActionIcon} onClick=${createDocument} variant="light" color="gray" aria-label="Note"><${IconNote}/></${ActionIcon}>
+
+    </${Box}>
   </${Flex}>
+  <${Title} order=${5}>Documents</${Title}>
   <${Divider}/>
   <${Tree} data=${documents}
            tree=${tree}
