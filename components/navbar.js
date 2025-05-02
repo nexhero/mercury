@@ -28,12 +28,20 @@ export function DocumentIcon({node,expanded}){
 
 
 export default function Navbar(){
-  const {documents, createDocument} = useContext(MercuryContext);
+  const {documents, createDocument, openDocument} = useContext(MercuryContext);
   const tree = useTree();
   const Leaf = ({node, expanded, hasChildren, elementProps})=>{
+    const openItUp = ()=>{
+      if (node.type !== 'tag') {
+        openDocument(node.value);
+      }
+
+    };
     return html`
 <${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
-  <${Box}>
+  <${Box}
+    onClick=${()=>openItUp()}
+    >
     <span>
       <${DocumentIcon} node=${node} expanded=${expanded}/>
       ${node.label}
@@ -48,7 +56,6 @@ export default function Navbar(){
   <${Flex} gap="sm" justify="flex-end">
     <${Box}>
       <${ActionIcon} onClick=${createDocument} variant="light" color="gray" aria-label="Note"><${IconNote}/></${ActionIcon}>
-
     </${Box}>
   </${Flex}>
   <${Title} order=${5}>Documents</${Title}>

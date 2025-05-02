@@ -31,6 +31,7 @@ export default function Editor(){
     `
 
         )));
+      // Append rich editor component for earch panel and pass the document object
         setPanels(Array.from(openedDocs.entries()).map(([key, value]) => (
             html`
 <${Tabs.Panel} key=${key} value=${key}>
