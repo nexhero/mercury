@@ -39,7 +39,7 @@ const textColor =[
     '#94b0c2',
 ];
 export default function RichEditor({document}){
-    const tagList = ['abc'];
+    const {tags} = useContext(MercuryContext);
     const [label,setLabel] = useState('');
     const [tag,setTag] = useState('');
     const timeRef = useRef(null);
@@ -114,7 +114,7 @@ export default function RichEditor({document}){
         placeholder="Title" />
     </${Group}>
       <${Autocomplete}
-        data=${tagList}
+        data=${tags}
         value=${tag}
         onChange=${setTag}
         size="lg"
