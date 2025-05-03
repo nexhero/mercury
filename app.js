@@ -1,51 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { html } from 'htm/react';
-import Layout from './components/layout'
-import { createTheme, MantineProvider, Container, Notification } from '@mantine/core';
-
-import { NotificationProvider} from './lib/runtime/notification'
-
-import {MercuryProvider } from './lib/runtime'
+import { MantineProvider, Container, Notification } from '@mantine/core';
+import {MercuryProvider} from './lib/runtime';
+import {NotificationProvider} from './lib/runtime/notification';
 import { ContextMenuProvider } from 'mantine-contextmenu';
+import Shell from './pages/shell.js';
 
-const theme = createTheme({
-  /** Put your mantine theme override here */
-});
-
-const root = createRoot(document.querySelector('#root'))
-
-const darkTheme = createTheme({
-  palette:{
-
-    mode:'dark'
-  }
-})
+const root = createRoot(document.querySelector('#root'));
 
 function App(){
 
-  return (
-    html`
-        <${MantineProvider} defaultColorScheme="dark">
-
-              <${MantineProvider} defaultColorScheme="auto">
-                  <${NotificationProvider}>
-                  <${ContextMenuProvider}>
-                  <${MercuryProvider}>
-                    <${Layout}/>
-                  <//>
-                  <//>
-                  <//>
-              <//>
-
-        </${MantineProvider}>
-
-    `
-  )
+  return html`
+<${MantineProvider} defaultColorScheme="dark" style=${{backgroundColor:'white'}}>
+  <${NotificationProvider}>
+    <${MercuryProvider}>
+      <${Shell}/>
+    </${MercuryProvider}>
+  </${NotificationProvider}>
+</${MantineProvider}>
+  `;
 }
-
 root.render(
   html`
-    <${App}/>
-`
-)
+<${App}/>
+  `
+);
