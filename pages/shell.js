@@ -19,7 +19,6 @@ export default function Shell(){
   <${AppShell.Navbar} p="md" mt="30px">
     <${Navbar}/>
   </${AppShell.Navbar}>
-
   <${AppShell.Main}>
     <${Editor}/>
   </${AppShell.Main}>

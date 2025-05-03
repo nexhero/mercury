@@ -1,3 +1,4 @@
+// TODO: navbar title doesn't make sense
 import React,{useContext,useEffect} from 'react';
 import {html} from 'htm/react';
 import {Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
@@ -10,6 +11,7 @@ import {
   IconFileFilled
 
 } from '@tabler/icons-react';
+import { useContextMenu } from 'mantine-contextmenu';
 import {MercuryContext} from '../lib/runtime/index.js';
 
 export function DocumentIcon({node,expanded}){
@@ -28,10 +30,17 @@ export function DocumentIcon({node,expanded}){
 
 
 export default function Navbar(){
-  const {documents, createDocument, openDocument} = useContext(MercuryContext);
+  const {documents, createDocument, openDocument,duplicateDocument} = useContext(MercuryContext);
   const tree = useTree();
+  const { showContextMenu } = useContextMenu();
+  const handleDuplicate=(node)=>{
+    duplicateDocument(node);
+  };
+  const handleDelete = (node)=>{
+    console.log('handle deletion for document');
+  };
 const Leaf = ({node, expanded, hasChildren, elementProps}) => {
-  const handleClick = () => {
+  const handleOpenDocument = () => {
     if (node.type !== 'tag' && node.value) {
       console.log('Opening doc:', node);
       openDocument(node);
@@ -40,7 +49,24 @@ const Leaf = ({node, expanded, hasChildren, elementProps}) => {
 
   return html`
     <${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
-      <${Box} onClick=${handleClick}>
+      <${Box}
+        onClick=${handleOpenDocument}
+               onContextMenu=${showContextMenu([
+        {
+          key:'duplicate',
+          icon: html`<${IconCopy} size=${16} />`,
+          title:'Duplicate',
+          onClick:()=>handleDuplicate(node)
+        },
+        {
+          key:'delete',
+          color: '#ff00ff',
+          icon: html`<${IconTrash} size=${16} />`,
+          title:'Delete',
+          onClick:()=>handleDelete(node)
+        }
+        ])}
+        >
         <span>
           <${DocumentIcon} node=${node} expanded=${expanded} />
           ${node.label}

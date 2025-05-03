@@ -15,7 +15,9 @@ function App(){
 <${MantineProvider} defaultColorScheme="dark" style=${{backgroundColor:'white'}}>
   <${NotificationProvider}>
     <${MercuryProvider}>
+      <${ContextMenuProvider}>
       <${Shell}/>
+      </${ContextMenuProvider}>
     </${MercuryProvider}>
   </${NotificationProvider}>
 </${MantineProvider}>
