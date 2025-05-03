@@ -26,7 +26,7 @@ import {
 import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "@mantine/core";
 import React,{ useState, useEffect, useContext, useRef } from "react";
 import {MercuryContext} from '../../lib/runtime';
-
+import {NotificationContext} from '../../lib/runtime/notification';
 const textColor =[
     '#5d275d',
     '#b13e53',
@@ -39,6 +39,7 @@ const textColor =[
     '#94b0c2',
 ];
 export default function RichEditor({document}){
+    const {createSuccess} = useContext(NotificationContext);
     const {tags} = useContext(MercuryContext);
     const [label,setLabel] = useState('');
     const [tag,setTag] = useState('');
@@ -51,6 +52,7 @@ export default function RichEditor({document}){
         }
         timeRef.current = setTimeout(()=>{
             save();
+            createSuccess('Document saved','Autosaving');
         },delay_time);
         return ()=>{
             clearTimeout(timeRef.current);
