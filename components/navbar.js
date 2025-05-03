@@ -30,26 +30,25 @@ export function DocumentIcon({node,expanded}){
 export default function Navbar(){
   const {documents, createDocument, openDocument} = useContext(MercuryContext);
   const tree = useTree();
-  const Leaf = ({node, expanded, hasChildren, elementProps})=>{
-    const openItUp = ()=>{
-      if (node.type !== 'tag') {
-        openDocument(node.value);
-      }
-
-    };
-    return html`
-<${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
-  <${Box}
-    onClick=${()=>openItUp()}
-    >
-    <span>
-      <${DocumentIcon} node=${node} expanded=${expanded}/>
-      ${node.label}
-    </span>
-  </${Box}>
-</${Group}>
-  `;
+const Leaf = ({node, expanded, hasChildren, elementProps}) => {
+  const handleClick = () => {
+    if (node.type !== 'tag' && node.value) {
+      console.log('Opening doc:', node);
+      openDocument(node);
+    }
   };
+
+  return html`
+    <${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
+      <${Box} onClick=${handleClick}>
+        <span>
+          <${DocumentIcon} node=${node} expanded=${expanded} />
+          ${node.label}
+        </span>
+      </${Box}>
+    </${Group}>
+  `;
+};
 
   return html`
 <${Stack}>
