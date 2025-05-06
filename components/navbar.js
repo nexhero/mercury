@@ -1,7 +1,7 @@
 // TODO: navbar title doesn't make sense
-import React,{useContext,useEffect} from 'react';
+import React,{useState,useContext,useEffect,useRef} from 'react';
 import {html} from 'htm/react';
-import {Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
+import {Text,Button,Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
 import {IconTag, IconNote} from '@tabler/icons-react';
 import {
   IconChevronDown,
@@ -12,6 +12,7 @@ import {
 
 } from '@tabler/icons-react';
 import { useContextMenu } from 'mantine-contextmenu';
+import {useDisclosure} from '@mantine/hooks';
 import {MercuryContext} from '../lib/runtime/index.js';
 
 export function DocumentIcon({node,expanded}){
@@ -30,31 +31,49 @@ export function DocumentIcon({node,expanded}){
 
 
 export default function Navbar(){
-  const {documents, createDocument, openDocument,duplicateDocument} = useContext(MercuryContext);
+  const {documents, createDocument, openDocument,duplicateDocument,deleteDocument,deleteDocumentByTag} = useContext(MercuryContext);
   const tree = useTree();
   const { showContextMenu } = useContextMenu();
+  const confirmDialog = useDisclosure(false);
+  const [dialogMessage,setDialogMessage] = useState('');
+  const tagRef = useRef(null);
   const handleDuplicate=(node)=>{
     duplicateDocument(node);
   };
+
   const handleDelete = (node)=>{
-    console.log('handle deletion for document');
-  };
-const Leaf = ({node, expanded, hasChildren, elementProps}) => {
-  const handleOpenDocument = () => {
-    if (node.type !== 'tag' && node.value) {
-      console.log('Opening doc:', node);
-      openDocument(node);
+    if (node.type !== 'tag') {
+      deleteDocument(node);
+    }else{
+      tagRef.current = node;
+      setDialogMessage(`By removing the "${node.label}" tag, you are also deleting all associated notes.`);
+      confirmDialog[1].open();
     }
   };
+  const confirmDeleteTag = ()=>{
+    console.log(`removing tag ${tagRef.current.label}`);
+    deleteDocumentByTag(tagRef.current.label);
+    confirmDialog[1].close();
 
-  return html`
-    <${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
-      <${Box}
-        onClick=${handleOpenDocument}
-               onContextMenu=${showContextMenu([
-        {
-          key:'duplicate',
-          icon: html`<${IconCopy} size=${16} />`,
+    tagRef.current = null;
+  };
+
+  const Leaf = ({node, expanded, hasChildren, elementProps}) => {
+    const handleOpenDocument = () => {
+      if (node.type !== 'tag' && node.value) {
+        console.log('Opening doc:', node);
+        openDocument(node);
+      }
+    };
+
+    return html`
+<${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
+  <${Box}
+    onClick=${handleOpenDocument}
+    onContextMenu=${showContextMenu([
+    {
+    key:'duplicate',
+    icon: html`<${IconCopy} size=${16} />`,
           title:'Duplicate',
           onClick:()=>handleDuplicate(node)
         },
@@ -74,10 +93,17 @@ const Leaf = ({node, expanded, hasChildren, elementProps}) => {
       </${Box}>
     </${Group}>
   `;
-};
+  };
 
   return html`
 <${Stack}>
+  <${Modal} opened=${confirmDialog[0]} onClose=${confirmDialog[1].close}>
+    <${Text}>${dialogMessage}</${Text}>
+    <${Group} justify="flex-end">
+      <${Button} onClick=${confirmDialog[1].close}>Cancel</${Button}>
+      <${Button} onClick=${()=>confirmDeleteTag()}>Accept</${Button}>
+    </${Group}>
+  </${Modal}>
   <${Flex} gap="sm" justify="flex-end">
     <${Box}>
       <${ActionIcon} onClick=${createDocument} variant="light" color="gray" aria-label="Note"><${IconNote}/></${ActionIcon}>
