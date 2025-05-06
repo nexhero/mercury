@@ -36,6 +36,7 @@ export default function Navbar(){
   const confirmDialog = useDisclosure(false);
   const [dialogMessage,setDialogMessage] = useState('');
   const tagRef = useRef(null);
+
   const handleDuplicate=(node)=>{
     duplicateDocument(node);
   };

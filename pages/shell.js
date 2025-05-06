@@ -3,6 +3,7 @@ import {html} from 'htm/react';
 import {Group,Grid,AppShell,Burger, Title, ActionIcon} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import {Header,Navbar, Editor} from '../components/';
+import {SettingsPageProvider} from './settings/';
 export default function Shell(){
   const [opened,{toggle}] = useDisclosure();
   return html`
@@ -17,7 +18,9 @@ export default function Shell(){
     <${Header} toggle=${toggle} opened=${opened}/>
   </${AppShell.Header}>
   <${AppShell.Navbar} p="md" mt="30px">
+    <${SettingsPageProvider}>
     <${Navbar}/>
+    </${SettingsPageProvider}>
   </${AppShell.Navbar}>
   <${AppShell.Main}>
     <${Editor}/>
