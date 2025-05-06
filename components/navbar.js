@@ -1,20 +1,19 @@
 // TODO: navbar title doesn't make sense
 import React,{useState,useContext,useEffect,useRef} from 'react';
 import {html} from 'htm/react';
-import {Text,Button,Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
-import {IconTag, IconNote} from '@tabler/icons-react';
+import {Text,TextInput,Button,Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
 import {
   IconChevronDown,
   IconCopy,
   IconWriting,
   IconTrash,
-  IconFileFilled
-
+  IconFileFilled,
+  IconSquareLetterX
 } from '@tabler/icons-react';
 import { useContextMenu } from 'mantine-contextmenu';
 import {useDisclosure} from '@mantine/hooks';
 import {MercuryContext} from '../lib/runtime/index.js';
-
+import NavbarActions from './navbarActions';
 export function DocumentIcon({node,expanded}){
   if (node.type ==='tag') {
     return html`
@@ -105,11 +104,26 @@ export default function Navbar(){
     </${Group}>
   </${Modal}>
   <${Flex} gap="sm" justify="flex-end">
-    <${Box}>
-      <${ActionIcon} onClick=${createDocument} variant="light" color="gray" aria-label="Note"><${IconNote}/></${ActionIcon}>
-    </${Box}>
+    <${NavbarActions}/>
+
   </${Flex}>
-  <${Title} order=${5}>Documents</${Title}>
+  <${Box} w="100%" align="center">
+    <${Stack}>
+      <${Title} order=${5}>Documents</${Title}>
+      <${Group} grow wrap="nowrap" preventGrowOverflow=${false} gap="xs">
+        <${TextInput}
+        placeholder="Search"
+        />
+        <${ActionIcon}
+          onClick=${()=>console.log('Clear search')}
+          variant="light"
+          color="gray"
+          aria-label="Clear">
+          <${IconSquareLetterX}/>
+        </${ActionIcon}>
+      </${Group}>
+    </${Stack}>
+  </${Box}>
   <${Divider}/>
   <${Tree} data=${documents}
            tree=${tree}
