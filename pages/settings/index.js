@@ -11,19 +11,20 @@ export const  SettingsPageProvider=({children})=>{
 
     return html`
 <${SettingsPageContext.Provider} value=${{opened,openSettings:open,closeSettings:close}}>
-  <${Box}>
+
     <${Modal}
       opened=${opened}
       onClose=${close}
       title="Settings"
       size="xl"
       centered
+
       >
       <${Tabs} orientation="vertical" color="lime" defaultValue="replicator">
-        <${Tabs.List}>
+        <${Tabs.List} h="80vh">
           <${Tabs.Tab} value="replicator">Replicator</${Tabs.Tab}>
-          <${Tabs.Tab} value="security">Security</${Tabs.Tab}>
           <${Tabs.Tab} value="shortcuts">Shortcuts</${Tabs.Tab}>
+          <${Tabs.Tab} value="security">Backup</${Tabs.Tab}>
         </${Tabs.List}>
 
         <${Tabs.Panel} value="replicator"> <${SettingsReplicatorTab}/> </${Tabs.Panel}>
@@ -31,7 +32,7 @@ export const  SettingsPageProvider=({children})=>{
       </${Tabs}>
     </${Modal}>
     ${children}
-  </${Box}>
+
 </${SettingsPageContext.Provider}>
 
 `;
