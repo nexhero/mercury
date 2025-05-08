@@ -5,13 +5,13 @@
 /////////////////////////////////////////////
 
 // List things TODO
-// TODO:QR code centered
-// TODO:Input & button copy must be in the same row
-// TODO:Add replicator
+// DONE:QR code centered
+// FIXME:Input & button copy must be in the same row
+// DONE: replicator
 // TODO:Remove replicator
-// TODO:Display connected peers
-
-import React,{useState,useContext} from 'react';
+// DONE:Display connected peers
+// TODO: Manage Success and error messages
+import React,{useEffect,useState,useContext} from 'react';
 import {html} from 'htm/react';
 import {Divider,Title,Container,Center,Stack,Paper, Button, TextInput,Textarea, Group,Box} from '@mantine/core';
 import { IconCopy, IconCheck, IconWorldMinus } from '@tabler/icons-react';
@@ -22,14 +22,43 @@ export default function SettingsReplicatorTab() {
   const {mercury} = useContext(MercuryContext);
   const [name,setName] = useState('');
   const [channel,setChannel] = useState('');
-
+  const [replicators,setReplicators] = useState([]);
+  const removeReplicator = (r)=>{
+    console.log(`removing replicator ${r}`);
+  };
   const addRepo = ()=>{
     mercury.joinRemoteRepository(channel,name)
       .then(()=>console.log('repo added'))
       .catch((err)=>console.log(`ERROR:${String(err)}`));
     console.log('adding repository');
   };
-  return html`
+
+  const rowsReplicator = replicators.map((e)=>{
+    const isOnline = mercury.network.peers.has(e.peer);
+    const publicKey = `${String(e.peer).slice(0,5)} ... ${String(e.peer).slice(-6)}`;
+        return html`
+            <${Table.Tr} key=${e.id}>
+                <${Table.Td}>${e.name}<//>
+                <${Table.Td}>${publicKey}<//>
+                <${Table.Td}><${Badge} color=${isOnline?"green":"red"}>${isOnline?"Online":"Offline"}<//><//>
+                <${Table.Td}>
+                    <${ActionIcon} onClick=${()=>removeReplicator(e)} variant="light" color="red" aria-label="Remove">
+                        <${IconWorldMinus}/>
+                    <//>
+                <//>
+            <//>
+        `;});
+
+  const fetchReplicators = ()=>{
+    mercury.db.getAllRepositories()
+      .then((lisst)=>setReplicators(lisst));
+  };
+  useEffect(()=>{
+    fetchReplicators();
+  },[]);
+  mercury.network.on('update', () => fetchReplicators());
+
+return html`
 <${Container}>
   <${Center}>
     <${Stack} >
@@ -76,6 +105,7 @@ export default function SettingsReplicatorTab() {
               <${Table.Th}>Status</${Table.Th}>
             </${Table.Tr}>
           </${Table.Thead}>
+          <${Table.Tbody}>${rowsReplicator}</${Table.Tbody}>
         </${Table}>
       </${Box}>
       </${Stack}>
