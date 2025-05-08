@@ -1,4 +1,7 @@
 // TODO: navbar title doesn't make sense
+// FIXME: Large document files looks awful
+// TODO: Implement search fzf
+
 import React,{useState,useContext,useEffect,useRef} from 'react';
 import {html} from 'htm/react';
 import {Text,TextInput,Button,Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';

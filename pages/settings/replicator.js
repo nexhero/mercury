@@ -4,44 +4,53 @@
 // with other devices                      //
 /////////////////////////////////////////////
 
-// List things TODO
-// DONE:QR code centered
 // FIXME:Input & button copy must be in the same row
-// DONE: replicator
-// DONE:Remove replicator
-// DONE:Display connected peers
-// TODO: Manage Success and error messages
+
 import React,{useEffect,useState,useContext} from 'react';
 import {html} from 'htm/react';
 import {Divider,Title,Container,Center,Stack,Paper, Button, TextInput,Textarea, Group,Box} from '@mantine/core';
 import { IconCopy, IconCheck, IconWorldMinus } from '@tabler/icons-react';
 import { ActionIcon, CopyButton, Tooltip, Table, Badge } from '@mantine/core';
 import {QRCodeSVG} from 'qrcode.react';
-import {MercuryContext} from '../../lib/runtime';
+import {MercuryContext,NotificationContext } from '../../lib/runtime';
+
 export default function SettingsReplicatorTab() {
   const {mercury} = useContext(MercuryContext);
   const [name,setName] = useState('');
   const [channel,setChannel] = useState('');
   const [replicators,setReplicators] = useState([]);
+  const notification = useContext(NotificationContext);
+
+  // When a new peer connected to the user topic
+  mercury.network.on('update', () => fetchReplicators());
+
+  const fetchReplicators = ()=>{
+    mercury.db.getAllRepositories()
+      .then((lisst)=>setReplicators(lisst));
+  };
+
+  useEffect(()=>{
+    fetchReplicators();
+  },[]);
+
   const removeReplicator = (r)=>{
     mercury.removeRepository(r.id)
       .then(()=>{
-        console.log('repository removed');
+        notification.createSuccess(`Repository ${r.name} has been removed`);
         fetchReplicators();
       })
-      .catch((err)=>console.log(`Can't remove repository ${String(err)}`));
+      .catch((err)=>notification.createError(`Can't remove repository ${String(err)}`));
 
   };
   const addRepo = ()=>{
     mercury.joinRemoteRepository(channel,name)
       .then(()=>{
-        console.log('repo added');
+        notification.createSuccess(`${name} has beed appended as Repository`);
         setName('');
         setChannel('');
         fetchReplicators();
       })
-      .catch((err)=>console.log(`ERROR:${String(err)}`));
-    console.log('adding repository');
+      .catch((err)=>notification.createError(`${String(err)}`,'Failed to append repository'));
   };
 
   const rowsReplicator = replicators.map((e)=>{
@@ -59,15 +68,6 @@ export default function SettingsReplicatorTab() {
                 <//>
             <//>
         `;});
-
-  const fetchReplicators = ()=>{
-    mercury.db.getAllRepositories()
-      .then((lisst)=>setReplicators(lisst));
-  };
-  useEffect(()=>{
-    fetchReplicators();
-  },[]);
-  mercury.network.on('update', () => fetchReplicators());
 
 return html`
 <${Container}>

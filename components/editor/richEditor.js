@@ -1,3 +1,12 @@
+/*#+ORG
+* Todo List
+** TODO When label changes, there is no update in the tap name
+** [ ] Implement a system to append other documents
+** [ ] There is a bug in the 'Task List' markdown format, cursor become invisible
+** IDEA Let user add emojis as icons for documents
+** IDEA User can choose between Markdown and Org mode
+#+END_ORG*/
+
 import { html } from "htm/react";
 import StarterKit from "@tiptap/starter-kit";
 import Highlight from "@tiptap/extension-highlight";
