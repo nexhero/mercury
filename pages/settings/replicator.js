@@ -8,7 +8,7 @@
 // DONE:QR code centered
 // FIXME:Input & button copy must be in the same row
 // DONE: replicator
-// TODO:Remove replicator
+// DONE:Remove replicator
 // DONE:Display connected peers
 // TODO: Manage Success and error messages
 import React,{useEffect,useState,useContext} from 'react';
