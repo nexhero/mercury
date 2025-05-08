@@ -24,11 +24,22 @@ export default function SettingsReplicatorTab() {
   const [channel,setChannel] = useState('');
   const [replicators,setReplicators] = useState([]);
   const removeReplicator = (r)=>{
-    console.log(`removing replicator ${r}`);
+    mercury.removeRepository(r.id)
+      .then(()=>{
+        console.log('repository removed');
+        fetchReplicators();
+      })
+      .catch((err)=>console.log(`Can't remove repository ${String(err)}`));
+
   };
   const addRepo = ()=>{
     mercury.joinRemoteRepository(channel,name)
-      .then(()=>console.log('repo added'))
+      .then(()=>{
+        console.log('repo added');
+        setName('');
+        setChannel('');
+        fetchReplicators();
+      })
       .catch((err)=>console.log(`ERROR:${String(err)}`));
     console.log('adding repository');
   };
