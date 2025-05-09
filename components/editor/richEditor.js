@@ -4,6 +4,7 @@
 ** [ ] Implement a system to append other documents
 ** [ ] There is a bug in the 'Task List' markdown format, cursor become invisible
 ** IDEA Let user add emojis as icons for documents
+[[https://www.npmjs.com/package/emoji-picker-react][package]]
 ** IDEA User can choose between Markdown and Org mode
 #+END_ORG*/
 
@@ -36,6 +37,7 @@ import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "
 import React,{ useState, useEffect, useContext, useRef } from "react";
 import {MercuryContext} from '../../lib/runtime';
 import {NotificationContext} from '../../lib/runtime/notification';
+import {IconEmojiPicker} from '../index';
 const textColor =[
     '#5d275d',
     '#b13e53',
@@ -119,7 +121,10 @@ export default function RichEditor({document}){
     },[label,tag]);
     return html`
 <${Box} p="md">
-  <${Group}>
+  <${Group} justify="space-between" wrap="nowrap" preventGrowOverflow={false} align="center">
+    <div>
+      <${IconEmojiPicker}/>
+    </div>
     <${Box} w="80%">
       <${TextInput}
         value=${label}
