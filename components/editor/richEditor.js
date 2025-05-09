@@ -48,12 +48,17 @@ const textColor =[
     '#94b0c2',
 ];
 export default function RichEditor({document}){
-    const {createSuccess} = useContext(NotificationContext);
+    const notification = useContext(NotificationContext);
     const {tags} = useContext(MercuryContext);
     const [label,setLabel] = useState('');
     const [tag,setTag] = useState('');
+
+    ////////////////////////////////////////
+    // Autosaving: Once user stop typing, //
+    // after delay_time trigger save()    //
+    ////////////////////////////////////////
     const timeRef = useRef(null);
-    const delay_time = 3000;
+    const delay_time = 1000;
 
     const resetTimeRef = ()=>{
         if (timeRef.current) {
@@ -61,12 +66,21 @@ export default function RichEditor({document}){
         }
         timeRef.current = setTimeout(()=>{
             save();
-            createSuccess('Document saved','Autosaving');
+
         },delay_time);
         return ()=>{
             clearTimeout(timeRef.current);
             timeRef.current = null;
         };
+    };
+    const save = async() => {
+        if (editor) {
+            document.setLabel(label);
+            document.setTag(tag);
+            document.setContent(editor.getHTML());
+            document.save()
+                .catch((err)=>notification(`${String(err)}`,'Unable to autosave document'));
+        }
     };
 
     const editor = useEditor({
@@ -89,20 +103,10 @@ export default function RichEditor({document}){
         ],
         content: document.content,
         onUpdate:({editor})=>{
-            // save();
             resetTimeRef();
         }
     });
 
-    const save = async() => {
-        if (editor) {
-            document.setLabel(label);
-            document.setTag(tag);
-            document.setContent(editor.getHTML());
-            console.log(`Saving document ${document.toJson()}`);
-            document.save();
-        }
-    };
 
     useEffect(()=>{
         setTag(document.tag);
@@ -123,7 +127,7 @@ export default function RichEditor({document}){
         size="lg"
         radius="xs"
         placeholder="Title" />
-    </${Group}>
+      </${Group}>
       <${Autocomplete}
         data=${tags}
         value=${tag}

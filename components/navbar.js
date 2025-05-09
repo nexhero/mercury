@@ -13,6 +13,7 @@ import {
   IconFileFilled,
   IconSquareLetterX
 } from '@tabler/icons-react';
+import MiniSearch from 'minisearch';
 import { useContextMenu } from 'mantine-contextmenu';
 import {useDisclosure} from '@mantine/hooks';
 import {MercuryContext} from '../lib/runtime/index.js';
@@ -33,13 +34,33 @@ export function DocumentIcon({node,expanded}){
 
 
 export default function Navbar(){
-  const {documents, createDocument, openDocument,duplicateDocument,deleteDocument,deleteDocumentByTag} = useContext(MercuryContext);
+  const {documents,documentsTree, createDocument, openDocument,duplicateDocument,deleteDocument,deleteDocumentByTag} = useContext(MercuryContext);
   const tree = useTree();
   const { showContextMenu } = useContextMenu();
   const confirmDialog = useDisclosure(false);
   const [dialogMessage,setDialogMessage] = useState('');
   const tagRef = useRef(null);
 
+  const fuse = useRef(new MiniSearch({
+    fields:['label','content','tag'],
+    storeFields:[
+      'label',
+      'value',
+      'content',
+      'id',
+      'tag',
+      'created_at',
+      'updated_at',
+      'type'
+    ]
+  }));
+  const [search,setSearch] = useState('');
+  const [seek,setSeek] = useState(null); //seek for documetns
+
+  const clearSearch = ()=>{
+    setSearch('');
+    setSeek(null);
+  };
   const handleDuplicate=(node)=>{
     duplicateDocument(node);
   };
@@ -62,6 +83,7 @@ export default function Navbar(){
   };
 
   const Leaf = ({node, expanded, hasChildren, elementProps}) => {
+    node.value = node.id;
     const handleOpenDocument = () => {
       if (node.type !== 'tag' && node.value) {
         console.log('Opening doc:', node);
@@ -98,6 +120,35 @@ export default function Navbar(){
   `;
   };
 
+  const prepareFuse = ()=>{
+    if (fuse.current.termCount) {
+      fuse.current.removeAll();
+      fuse.current.addAll(documents);
+    }else{
+      fuse.current.addAll(documents);
+    }
+
+  };
+  useEffect(()=>{
+    if (documents.length) {
+
+      prepareFuse();
+    }
+  },[documents]);
+  useEffect(()=>{
+    console.log('Trigged')
+    if (search.length) {
+      const result = fuse.current.search(search,{ prefix: true });
+
+      // console.log(`total result ${result.length}`);
+      // console.log('tree');
+      // console.log(documentsTree);
+      setSeek(result);
+    }else{
+      setSeek(null);
+    }
+
+  },[search]);
   return html`
 <${Stack}>
   <${Modal} opened=${confirmDialog[0]} onClose=${confirmDialog[1].close}>
@@ -116,23 +167,25 @@ export default function Navbar(){
       <${Title} order=${5}>Documents</${Title}>
       <${Group} grow wrap="nowrap" preventGrowOverflow=${false} gap="xs">
         <${TextInput}
-        placeholder="Search"
-        />
-        <${ActionIcon}
-          onClick=${()=>console.log('Clear search')}
-          variant="light"
-          color="gray"
-          aria-label="Clear">
-          <${IconSquareLetterX}/>
-        </${ActionIcon}>
-      </${Group}>
-    </${Stack}>
-  </${Box}>
-  <${Divider}/>
-  <${Tree} data=${documents}
-           tree=${tree}
-           levelOffset=${18}
-           renderNode=${(payload)=>html`<${Leaf} ...${payload} />`}
+          value=${search}
+          onChange=${(e)=>setSearch(e.currentTarget.value)}
+          placeholder="Search"
+          />
+          <${ActionIcon}
+            onClick=${clearSearch}
+            variant="light"
+            color="gray"
+            aria-label="Clear">
+            <${IconSquareLetterX}/>
+          </${ActionIcon}>
+        </${Group}>
+      </${Stack}>
+    </${Box}>
+    <${Divider}/>
+    <${Tree} data=${seek?seek:documentsTree}
+             tree=${tree}
+             levelOffset=${18}
+             renderNode=${(payload)=>html`<${Leaf} ...${payload} />`}
       />
 
   </${Stack}>
