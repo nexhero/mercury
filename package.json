@@ -22,7 +22,7 @@
     "pear-interface": "^1.0.0",
     "style-loader": "^4.0.0"
   },
-  "imports": {
+    "imports": {
     "events": {
       "bare": "bare-events",
       "default": "events"
@@ -55,24 +55,21 @@
     "@tiptap/pm": "^2.10.4",
     "@tiptap/react": "^2.10.4",
     "@tiptap/starter-kit": "^2.10.4",
-    "autobase": "^7.3.0",
+    "autobase": "^6.5.13",
+    "autopass": "^1.0.2",
     "b4a": "^1.6.7",
-    "bare": "^1.17.4",
     "bare-events": "^2.5.4",
-    "bare-fs": "^4.1.2",
+    "bare-fs": "^4.0.1",
     "bare-path": "^3.0.0",
-    "bare-runtime": "^1.17.4",
-    "brittle": "^3.13.1",
+    "bare-process": "^4.0.0",
     "clsx": "^2.1.1",
-    "corestore": "^7.1.0",
+    "corestore": "^6.18.4",
     "htm": "^3.1.1",
-    "hyperbee": "^2.24.2",
-    "hypercore": "^11.4.2",
-    "hypercore-crypto": "^3.5.0",
-    "hyperswarm": "^4.11.5",
+    "hyperbee": "^2.21.2",
+    "hypercore": "^10.38.2",
+    "hyperswarm": "^4.8.4",
     "jotai": "^2.11.0",
     "mantine-contextmenu": "^7.15.3",
-    "mercury-core": "^1.0.1",
     "random-access-memory": "^6.2.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
