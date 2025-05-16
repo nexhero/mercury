@@ -14,7 +14,7 @@ export default function EmojiPicker({onChange,...props}) {
         ref.current.locale= 'en';
         ref.current.dataSource = './assets/emojis/data.json';
         ref.current.addEventListener('emoji-click',e=>{
-            onChange?.(e.detail);
+            onChange?.(e.detail.unicode);
             console.log('Emoji:',e);
         });
     },[]);
@@ -23,19 +23,25 @@ export default function EmojiPicker({onChange,...props}) {
     `;
 };
 
-export function IconEmojiPicker({onChange, ...props}){
-    const [emoji,setEmoji] = useState('🙂');
+export function IconEmojiPicker({value=null,onChange=null, ...props}){
+    const [emoji,setEmoji] = useState(value?value:'🦕');
     const [opened,setOpened] = useState(false);
 
+    const handleChange = (v)=>{
+        if (onChange) {
+            onChange(v);
+        }
+        setEmoji(v);
+    }
     return html`
 <${Popover} opened=${opened} onChange=${setOpened}>
   <${Popover.Target}>
     <${Button} onClick=${()=>setOpened((visible)=>!visible)}>
-      ${emoji.unicode}
+      ${emoji}
     </${Button}>
   </${Popover.Target}>
   <${Popover.Dropdown}>
-    <${EmojiPicker} onChange=${setEmoji}/>
+    <${EmojiPicker} onChange=${handleChange}/>
   </${Popover.Dropdown}>
 </${Popover}>
     `;

@@ -35,6 +35,8 @@ export function DocumentIcon({node,expanded}){
 
 export default function Navbar(){
   const {documents,documentsTree, createDocument, openDocument,duplicateDocument,deleteDocument,deleteDocumentByTag} = useContext(MercuryContext);
+  // const {documents, createDocument, openDocument,duplicateDocument,deleteDocument,deleteDocumentByTag} = useContext(MercuryContext);
+  // const documentsTree = []
   const tree = useTree();
   const { showContextMenu } = useContextMenu();
   const confirmDialog = useDisclosure(false);
