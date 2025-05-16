@@ -5,45 +5,56 @@ import { IconX } from '@tabler/icons-react';
 import RichEditor from './richEditor';
 import {MercuryContext} from '../../lib/runtime';
 export default function Editor(){
-    const {openedDocs,closeOneOpen,activeDoc,setActiveDoc} = useContext(MercuryContext);
-    const [tabs,setTabs] = useState([]);
-    const [panels,setPanels] = useState([]);
-    /**
-     * Close on tab by document id
-     * @param {String} t - Document ID
-     */
-    const handleCloseTab = (t)=>{
-        closeOneOpen(t);
-    };
-    useEffect(()=>{
-        // Create tabs based on the opened documents
-        setTabs(Array.from(openedDocs.entries()).map(([key, value]) => (
-            html`
+  const {openedDocs,closeOneOpen,activeDoc,setActiveDoc} = useContext(MercuryContext);
+  const [tabs,setTabs] = useState([]);
+  const [panels,setPanels] = useState([]);
+  /**
+   * Close on tab by document id
+   * @param {String} t - Document ID
+   */
+  const handleCloseTab = (t)=>{
+    closeOneOpen(t);
+  };
+  useEffect(()=>{
 
+
+      const genPanels =[]
+      const genTabs = []
+      openedDocs
+        .entries().forEach(([key,value])=>{
+          console.log('key,value:',key,value)
+          if (value.type!=='TAG') {
+            genTabs.push(
+                    html`
 <${Group} key=${key}>
   <${Tabs.Tab} key=${key} value=${key}>
     ${value.label}
   </${Tabs.Tab}>
   <${ActionIcon} size="sm"  onClick=${() => {handleCloseTab(key);}}>
     <${IconX}/>
-</${ActionIcon}>
+  </${ActionIcon}>
 </${Group}>
-    `
+  `
 
-        )));
-      // Append rich editor component for earch panel and pass the document object
-        setPanels(Array.from(openedDocs.entries()).map(([key, value]) => (
-            html`
+            )
+            genPanels.push(
+              html`
 <${Tabs.Panel} key=${key} value=${key}>
   <${Box}>
     <${RichEditor} document=${value}/>
   </${Box}>
 </${Tabs.Panel}>`
-        )));
-    },[openedDocs.size]);
+            )
+          }
+        })
+      setPanels(genPanels);
+      setTabs(genTabs);
 
-    if (openedDocs.size) {
-        return html`
+
+           },[openedDocs.size]);
+
+if (openedDocs.size) {
+  return html`
 <${Box}>
   <${Tabs} value=${activeDoc} onChange=${setActiveDoc}>
     <${Tabs.List}>
@@ -54,13 +65,13 @@ export default function Editor(){
     ${panels}
   </${Tabs}>
 </${Box}>
-    `;
-    }else{
-        return html`
+  `;
+}else{
+  return html`
 <${Box}>
   <h1>Empty</h1>
 </${Box}>
-    `;
-    }
+  `;
+}
 
 }
