@@ -5,6 +5,7 @@ export {default as Editor} from './editor'
 
 export {default as EmojiPicker} from './emojiPicker'
 export {IconEmojiPicker} from './emojiPicker'
+export {default as renderAutocompleteOpt} from './renderAutocompeteOption.js';
 
 /////////////
 // DIALGOS //

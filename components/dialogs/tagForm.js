@@ -3,7 +3,7 @@ import {Modal,Box,Stack,Group,TextInput,Autocomplete,Button} from '@mantine/core
 import React, {createContext,useEffect,useState,useContext} from 'react';
 import { useDisclosure } from '@mantine/hooks';
 import {MercuryContext} from '../../lib/runtime/';
-import {IconEmojiPicker} from '../index.js';
+import {IconEmojiPicker,renderAutocompleteOpt} from '../index.js';
 export const TagFormContext = createContext();
 export const TagFormProvider = ({children})=>{
     const {tags,activeDoc,getBufferById,closeOneOpen} = useContext(MercuryContext);
@@ -29,12 +29,22 @@ export const TagFormProvider = ({children})=>{
         const buff = getBufferById(activeDoc)
         setTagBuffer(buff)
         if(buff?.type === 'TAG'){
+
             setLabel(buff.label)
-            setParent(buff.parent?buff.parent:'')
+          const foundParent = tags.find((e)=>e.id==buff.tag)
+          if (foundParent) {
+          setParent(tags.find((e)=>e.id==buff.tag).label);
+          }
+
           setIcon(buff.icon?buff.icon:icon)
         }
     },[activeDoc])
+    const renderAuto = ({option})=>{
+        return html`
+<${renderAutocompleteOpt} option=${option} setTag=${setParent}/>
 
+`
+    }
     return html`
 
 <${TagFormContext.Provider} value=${{opened,openTagForm:open,closeTagForm:close}}>
@@ -64,8 +74,7 @@ export const TagFormProvider = ({children})=>{
         w="65%"
         placeholder="Parent"
         data=${tags}
-        value=${parent}
-        onChange=${setParent}
+        renderOption=${renderAuto}
         />
       <${Box} w="24%">
         <${Button} onClick=${save}>Save</$Button>

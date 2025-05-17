@@ -37,7 +37,7 @@ import { TextInput, Box, Stack, Button, Group, Autocomplete, ScrollArea } from "
 import React,{ useState, useEffect, useContext, useRef } from "react";
 import {MercuryContext} from '../../lib/runtime';
 import {NotificationContext} from '../../lib/runtime/notification';
-import {IconEmojiPicker} from '../index';
+import {IconEmojiPicker,renderAutocompleteOpt} from '../index';
 const textColor =[
     '#5d275d',
     '#b13e53',
@@ -121,11 +121,10 @@ export default function RichEditor({document}){
         resetTimeRef();
     },[label,tag]);
 
-    const renderAutocompleteOpt = ({option})=>{
+    const renderAuto = ({option})=>{
         return html`
-<${Box} onClick=${()=>{setTag(option.value)}}>
-<p>${option.label}</p>
-</${Box}>
+<${renderAutocompleteOpt} option=${option} setTag=${setTag}/>
+
 `
     }
     return html`
@@ -144,7 +143,7 @@ export default function RichEditor({document}){
       </${Group}>
       <${Autocomplete}
         data=${tags}
-        renderOption=${renderAutocompleteOpt}
+        renderOption=${renderAuto}
         size="lg"
         radius="xs"
         placeholder="Tag"
