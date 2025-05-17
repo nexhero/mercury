@@ -85,9 +85,9 @@ export default function Navbar(){
   };
 
   const Leaf = ({node, expanded, hasChildren, elementProps}) => {
-    node.value = node.id;
+
     const handleOpenDocument = () => {
-      if (node.type !== 'tag' && node.value) {
+      if (node.type !== 'TAG' && node.value) {
         console.log('Opening doc:', node);
         openDocument(node);
       }

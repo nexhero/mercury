@@ -23,7 +23,6 @@ export const TagFormProvider = ({children})=>{
     const handleClose = ()=>{
         close();
         closeOneOpen(tagBuffer.id);
-
     }
     useEffect(()=>{
         const buff = getBufferById(activeDoc)
