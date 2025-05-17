@@ -13,6 +13,7 @@ export const TagFormProvider = ({children})=>{
     const [label,setLabel] = useState('');
     const [icon,setIcon] = useState('🏷')
     const save = ()=>{
+      console.log('label is:',label)
         tagBuffer.setLabel(label);
         tagBuffer.setTag(parent);
         tagBuffer.setIcon(icon);
@@ -51,6 +52,8 @@ export const TagFormProvider = ({children})=>{
 
         <${TextInput}
           placeholder="Tag title"
+          value=${label}
+          onChange=${(e)=>setLabel(e.currentTarget.value)}
           required
           />
 

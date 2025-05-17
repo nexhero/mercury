@@ -77,6 +77,7 @@ export default function RichEditor({document}){
     };
     const save = async() => {
         if (editor) {
+            console.log(tags)
             document.setLabel(label);
             document.setTag(tag);
             document.setContent(editor.getHTML());
@@ -119,6 +120,14 @@ export default function RichEditor({document}){
     useEffect(()=>{
         resetTimeRef();
     },[label,tag]);
+
+    const renderAutocompleteOpt = ({option})=>{
+        return html`
+<${Box} onClick=${()=>{setTag(option.value)}}>
+<p>${option.label}</p>
+</${Box}>
+`
+    }
     return html`
 <${Box} p="md">
   <${Group} justify="space-between" wrap="nowrap" preventGrowOverflow={false} align="center">
@@ -135,8 +144,7 @@ export default function RichEditor({document}){
       </${Group}>
       <${Autocomplete}
         data=${tags}
-        value=${tag}
-        onChange=${setTag}
+        renderOption=${renderAutocompleteOpt}
         size="lg"
         radius="xs"
         placeholder="Tag"

@@ -18,13 +18,17 @@ import { useContextMenu } from 'mantine-contextmenu';
 import {useDisclosure} from '@mantine/hooks';
 import {MercuryContext} from '../lib/runtime/index.js';
 import NavbarActions from './navbarActions';
+
 export function DocumentIcon({node,expanded}){
-  if (node.type ==='tag') {
+  if (node.type ==='TAG') {
     return html`
+<${Group}>
 <${IconChevronDown}
   size=${24}
   style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
   />
+  ${node.icon}
+</${Group}>
 `;
   }else{
     return html`<${IconFileFilled} size=${24}/>`;
@@ -113,10 +117,10 @@ export default function Navbar(){
         }
         ])}
         >
-        <span>
+        <${Group}>
           <${DocumentIcon} node=${node} expanded=${expanded} />
           ${node.label}
-        </span>
+        </${Group}>
       </${Box}>
     </${Group}>
   `;
