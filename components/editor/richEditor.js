@@ -54,7 +54,7 @@ export default function RichEditor({document}){
     const {tags} = useContext(MercuryContext);
     const [label,setLabel] = useState('');
     const [tag,setTag] = useState('');
-
+    const [icon,setIcon] = useState('');
     ////////////////////////////////////////
     // Autosaving: Once user stop typing, //
     // after delay_time trigger save()    //
@@ -81,6 +81,7 @@ export default function RichEditor({document}){
             document.setLabel(label);
             document.setTag(tag);
             document.setContent(editor.getHTML());
+            document.setIcon(icon);
             document.save()
                 .catch((err)=>notification(`${String(err)}`,'Unable to autosave document'));
         }
@@ -114,6 +115,7 @@ export default function RichEditor({document}){
     useEffect(()=>{
         setTag(document.tag);
         setLabel(document.label);
+        setIcon(document.icon)
         editor.commands.setContent(document.content);
     },[]);
 
@@ -131,7 +133,10 @@ export default function RichEditor({document}){
 <${Box} p="md">
   <${Group} justify="space-between" wrap="nowrap" preventGrowOverflow={false} align="center">
     <div>
-      <${IconEmojiPicker}/>
+      <${IconEmojiPicker}
+        value=${icon}
+        onChange=${setIcon}
+        />
     </div>
     <${Box} w="80%">
       <${TextInput}

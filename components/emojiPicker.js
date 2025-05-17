@@ -24,7 +24,7 @@ export default function EmojiPicker({onChange,...props}) {
 };
 
 export function IconEmojiPicker({value=null,onChange=null, ...props}){
-    const [emoji,setEmoji] = useState(value?value:'🦕');
+    const [emoji,setEmoji] = useState(value?value:'');
     const [opened,setOpened] = useState(false);
 
     const handleChange = (v)=>{

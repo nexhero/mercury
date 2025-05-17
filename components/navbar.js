@@ -1,7 +1,10 @@
-// TODO: navbar title doesn't make sense
-// FIXME: Large document files looks awful
-// TODO: Implement search fzf
 
+/*#+ORG
+* TODO navbar title doesn't make sense
+* TODO Large document files looks awful
+* TODO Minisearch can't find in content due to html, it needs a parser
+
+#+END_ORG*/
 import React,{useState,useContext,useEffect,useRef} from 'react';
 import {html} from 'htm/react';
 import {Text,TextInput,Button,Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
@@ -32,7 +35,8 @@ export function DocumentIcon({node,expanded}){
 </${Group}>
 `;
   }else{
-    return html`<${IconFileFilled} size=${24}/>`;
+    // return html`<${IconFileFilled} size=${24}/>`;
+    return html`<${Box}>${node.icon}</${Box}>`
   }
 
 }
@@ -154,6 +158,7 @@ export default function Navbar(){
       prepareFuse();
     }
   },[documents]);
+
   useEffect(()=>{
     console.log('Trigged')
     if (search.length) {
