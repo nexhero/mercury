@@ -18,8 +18,8 @@ export const TagFormProvider = ({children})=>{
         tagBuffer.setTag(parent);
         tagBuffer.setIcon(icon);
         tagBuffer.save()
-            .then(()=>console.log('Tag saved'))
-            .catch((err)=>console.log('unable to save tag'))
+        .then(()=>handleClose())
+        .catch((err)=>console.log('unable to save tag'))
     }
     const handleClose = ()=>{
         close();
@@ -31,6 +31,7 @@ export const TagFormProvider = ({children})=>{
         if(buff?.type === 'TAG'){
             setLabel(buff.label)
             setParent(buff.parent?buff.parent:'')
+          setIcon(buff.icon?buff.icon:icon)
         }
     },[activeDoc])
 

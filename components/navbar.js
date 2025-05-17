@@ -11,22 +11,23 @@ import {
   IconWriting,
   IconTrash,
   IconFileFilled,
-  IconSquareLetterX
+  IconSquareLetterX,
+  IconEdit
 } from '@tabler/icons-react';
 import MiniSearch from 'minisearch';
 import { useContextMenu } from 'mantine-contextmenu';
 import {useDisclosure} from '@mantine/hooks';
 import {MercuryContext} from '../lib/runtime/index.js';
 import NavbarActions from './navbarActions';
-
+import {TagFormContext} from './dialogs/';
 export function DocumentIcon({node,expanded}){
   if (node.type ==='TAG') {
     return html`
 <${Group}>
-<${IconChevronDown}
-  size=${24}
-  style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-  />
+  <${IconChevronDown}
+    size=${24}
+    style=${{ transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+    />
   ${node.icon}
 </${Group}>
 `;
@@ -40,7 +41,7 @@ export function DocumentIcon({node,expanded}){
 export default function Navbar(){
   const {documents,documentsTree, createDocument, openDocument,duplicateDocument,deleteDocument,deleteDocumentByTag} = useContext(MercuryContext);
   // const {documents, createDocument, openDocument,duplicateDocument,deleteDocument,deleteDocumentByTag} = useContext(MercuryContext);
-  // const documentsTree = []
+  const {openTagForm} = useContext(TagFormContext)
   const tree = useTree();
   const { showContextMenu } = useContextMenu();
   const confirmDialog = useDisclosure(false);
@@ -92,19 +93,31 @@ export default function Navbar(){
 
     const handleOpenDocument = () => {
       if (node.type !== 'TAG' && node.value) {
-        console.log('Opening doc:', node);
         openDocument(node);
+        console.log('Opening doc:', node);
       }
     };
 
+    const handleEditDocument = ()=>{
+      openDocument(node);
+      if (node.type === 'TAG') {
+        openTagForm();
+      }
+    }
     return html`
 <${Group} preventGrowOverflow=${false} gap=${5} ...${elementProps}>
   <${Box}
     onClick=${handleOpenDocument}
     onContextMenu=${showContextMenu([
     {
-    key:'duplicate',
-    icon: html`<${IconCopy} size=${16} />`,
+          key:'edit',
+          icon: html`<${IconEdit} size=${16} />`,
+          title:'Edit',
+          onClick:()=>handleEditDocument()
+        },
+    {
+          key:'duplicate',
+          icon: html`<${IconCopy} size=${16} />`,
           title:'Duplicate',
           onClick:()=>handleDuplicate(node)
         },
@@ -192,8 +205,8 @@ export default function Navbar(){
              tree=${tree}
              levelOffset=${18}
              renderNode=${(payload)=>html`<${Leaf} ...${payload} />`}
-      />
+                                            />
 
-  </${Stack}>
+                                          </${Stack}>
   `;
 }
