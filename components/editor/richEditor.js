@@ -53,7 +53,7 @@ const textColor =[
 ];
 export default function RichEditor({document}){
     const notification = useContext(NotificationContext);
-    const {tags} = useContext(MercuryContext);
+    const {tags,activeDoc} = useContext(MercuryContext);
     const [label,setLabel] = useState(document.label);
     const [tag,setTag] = useState(document.tag);
     const [icon,setIcon] = useState(document.icon);
@@ -78,15 +78,15 @@ export default function RichEditor({document}){
         };
     };
     const save = async() => {
-        if (editor) {
-            console.log(tags)
-            document.setLabel(label);
-            document.setTag(tag);
-            document.setContent(editor.getHTML());
-            document.setIcon(icon);
-            document.save()
-                .catch((err)=>notification(`${String(err)}`,'Unable to autosave document'));
-        }
+
+        console.log(tags)
+        document.setLabel(label);
+        document.setTag(tag);
+        document.setContent(editor.getHTML());
+        document.setIcon(icon);
+        document.save()
+            .catch((err)=>notification(`${String(err)}`,'Unable to autosave document'));
+
     };
 
     const editor = useEditor({
@@ -129,8 +129,15 @@ export default function RichEditor({document}){
         return html`
 <${renderAutocompleteOpt} option=${option} setTag=${setTag}/>
 
-`
+`    }
+
+    //////////////////////////
+    // render only on focus //
+    //////////////////////////
+    if (activeDoc !== document.id) {
+        return html`<div>runnig background</div>`
     }
+
     return html`
 <${Box} p="md">
   <${Group} justify="space-between" wrap="nowrap" preventGrowOverflow={false} align="center">
