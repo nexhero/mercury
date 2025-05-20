@@ -35,8 +35,7 @@ export const TagFormProvider = ({children})=>{
           if (foundParent) {
           setParent(tags.find((e)=>e.id==buff.tag).label);
           }
-
-          setIcon(buff.icon?buff.icon:icon)
+          setIcon(buff.icon)
         }
     },[activeDoc])
     const renderAuto = ({option})=>{

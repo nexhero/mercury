@@ -6,6 +6,8 @@
 ** IDEA Let user add emojis as icons for documents
 [[https://www.npmjs.com/package/emoji-picker-react][package]]
 ** IDEA User can choose between Markdown and Org mode
+** TODO Document on save, do not change tag
+
 #+END_ORG*/
 
 import { html } from "htm/react";
@@ -52,9 +54,9 @@ const textColor =[
 export default function RichEditor({document}){
     const notification = useContext(NotificationContext);
     const {tags} = useContext(MercuryContext);
-    const [label,setLabel] = useState('');
-    const [tag,setTag] = useState('');
-    const [icon,setIcon] = useState('');
+    const [label,setLabel] = useState(document.label);
+    const [tag,setTag] = useState(document.tag);
+    const [icon,setIcon] = useState(document.icon);
     ////////////////////////////////////////
     // Autosaving: Once user stop typing, //
     // after delay_time trigger save()    //

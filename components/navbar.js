@@ -7,7 +7,7 @@
 #+END_ORG*/
 import React,{useState,useContext,useEffect,useRef} from 'react';
 import {html} from 'htm/react';
-import {Text,TextInput,Button,Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal} from '@mantine/core';
+import {Text,TextInput,Button,Stack, Flex, Title, Divider,Tree,useTree, Group,Box, ActionIcon, Modal, ScrollArea} from '@mantine/core';
 import {
   IconChevronDown,
   IconCopy,
@@ -55,6 +55,7 @@ export default function Navbar(){
   const fuse = useRef(new MiniSearch({
     fields:['label','content','tag'],
     storeFields:[
+      'icon',
       'label',
       'value',
       'content',
@@ -135,8 +136,8 @@ export default function Navbar(){
         ])}
         >
         <${Group}>
-          <${DocumentIcon} node=${node} expanded=${expanded} />
-          ${node.label}
+          <${Box}>${node.icon} ${node.label}</${Box}>
+
         </${Group}>
       </${Box}>
     </${Group}>
@@ -163,10 +164,10 @@ export default function Navbar(){
     console.log('Trigged')
     if (search.length) {
       const result = fuse.current.search(search,{ prefix: true });
-
       // console.log(`total result ${result.length}`);
       // console.log('tree');
       // console.log(documentsTree);
+      console.log(result)
       setSeek(result);
     }else{
       setSeek(null);
@@ -206,12 +207,15 @@ export default function Navbar(){
       </${Stack}>
     </${Box}>
     <${Divider}/>
+    <${ScrollArea} w=${200}>
     <${Tree} data=${seek?seek:documentsTree}
              tree=${tree}
              levelOffset=${18}
              renderNode=${(payload)=>html`<${Leaf} ...${payload} />`}
-                                            />
-
+                      />
+                                          </${ScrollArea}>
                                           </${Stack}>
+
   `;
+
 }
