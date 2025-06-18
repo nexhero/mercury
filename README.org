@@ -17,5 +17,6 @@ npm i -g pear
 #+begin_src
 git clone https://github.com/nexhero/mercury.git
 cd mercury
+npm install
 pear run --dev .
 #+end_src

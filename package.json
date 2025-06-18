@@ -73,7 +73,7 @@
     "hyperswarm": "^4.11.5",
     "jotai": "^2.11.0",
     "mantine-contextmenu": "^7.15.3",
-    "mercury-core": "file:../mercury-core",
+    "mercury-core": "^1.0.5",
     "minisearch": "^7.1.2",
     "qrcode.react": "^4.2.0",
     "random-access-memory": "^6.2.1",
