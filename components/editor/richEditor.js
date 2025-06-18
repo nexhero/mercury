@@ -78,8 +78,6 @@ export default function RichEditor({document}){
         };
     };
     const save = async() => {
-
-        console.log(tags)
         document.setLabel(label);
         document.setTag(tag);
         document.setContent(editor.getHTML());

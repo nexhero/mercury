@@ -17,15 +17,13 @@ export default function Editor(){
   };
   useEffect(()=>{
 
-
-      const genPanels =[]
-      const genTabs = []
-      openedDocs
-        .entries().forEach(([key,value])=>{
-          console.log('key,value:',key,value)
-          if (value.type!=='TAG') {
-            genTabs.push(
-                    html`
+    const genPanels =[]
+    const genTabs = []
+    openedDocs
+      .entries().forEach(([key,value])=>{
+        if (value.type!=='TAG') {
+          genTabs.push(
+            html`
 <${Group} key=${key}>
   <${Tabs.Tab} key=${key} value=${key}>
     ${value.label}
@@ -36,25 +34,25 @@ export default function Editor(){
 </${Group}>
   `
 
-            )
-            genPanels.push(
-              html`
+          )
+          genPanels.push(
+            html`
 <${Tabs.Panel} key=${key} value=${key}>
   <${Box}>
     <${RichEditor} document=${value}/>
   </${Box}>
 </${Tabs.Panel}>`
-            )
-          }
-        })
-      setPanels(genPanels);
-      setTabs(genTabs);
+          )
+        }
+      })
+    setPanels(genPanels);
+    setTabs(genTabs);
 
 
-           },[openedDocs.size]);
+  },[openedDocs.size]);
 
-if (openedDocs.size) {
-  return html`
+  if (openedDocs.size) {
+    return html`
 <${Box}>
   <${Tabs} value=${activeDoc} onChange=${setActiveDoc}>
     <${Tabs.List}>
@@ -66,12 +64,12 @@ if (openedDocs.size) {
   </${Tabs}>
 </${Box}>
   `;
-}else{
-  return html`
+  }else{
+    return html`
 <${Box}>
   <h1>Empty</h1>
 </${Box}>
   `;
-}
+  }
 
 }

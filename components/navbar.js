@@ -99,7 +99,6 @@ export default function Navbar(){
     const handleOpenDocument = () => {
       if (node.type !== 'TAG' && node.value) {
         openDocument(node);
-        console.log('Opening doc:', node);
       }
     };
 
@@ -161,7 +160,6 @@ export default function Navbar(){
   },[documents]);
 
   useEffect(()=>{
-    console.log('Trigged')
     if (search.length) {
       const result = fuse.current.search(search,{ prefix: true });
       // console.log(`total result ${result.length}`);
