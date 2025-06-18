@@ -1,3 +1,4 @@
 *.~undo-tree~
 /package-lock.json
 /node_modules/
+/temp_store.db/
